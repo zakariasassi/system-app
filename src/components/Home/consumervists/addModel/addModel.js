@@ -5,7 +5,7 @@ import logo from '../../../../assets/logo.png'
 
 function addModel() {
     return (
-        <>
+        <div>
             <Sidebar></Sidebar>
             <div class="full_container">
          <div class="inner_container">
@@ -41,20 +41,65 @@ function addModel() {
                      </div>
                   </nav>
                </div>
-           
-            <Button variant="primary">Primary</Button>{' '}
-      <Button variant="secondary">Secondary</Button>{' '}
-      <Button variant="success">Success</Button>{' '}
-      <Button variant="warning">Warning</Button>{' '}
-      <Button variant="danger">Danger</Button>{' '}
-      <Button variant="info">Info</Button>{' '}
-      <Button variant="light">Light</Button>{' '}
-      <Button variant="dark">Dark</Button> <Button variant="link">Link</Button>
+               <form class="row" style={{marginTop:100 , width:'80%' , marginRight:'auto' , marginLeft:'auto'}}>
+              <div class="col">
+                <labels for="customerName" > نوع النشاط</labels>
+                <input
+                  type="text"
+                  id="customerName"
+                  class="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                  
+                />
+                 <labels for="customerName" > رقم الهاتف</labels>
+                <input
+                  type="text"
+                  id="customerName"
+                  class="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                />
+               <labels for="customerName" > اسم المندوب</labels>
+                <input
+                  type="text"
+                  id="customerName"
+                  class="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                />
+              </div>
+              <div class="col">
+                <labels for="customerName" > اسم الزبون</labels>
+                <select class="form-select" aria-label="Default select example">
+                     <option selected>اسم الزبون</option>
+                     <option value="شركة الشرارة">شركة الشرارة</option>
+                  </select>
+                                <labels for="customerName" > قوة المولد</labels>
+                <input
+                  type="text"
+                  id="customerName"
+                  class="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                />
+                                <labels for="customerName" > اسم المندوب</labels>
+                <input
+                  type="text"
+                  id="customerName"
+                  class="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                />
+              </div>
+
+                <button class="btn btn-danger" onClick={null}  style={{marginTop:50}}> اضافة زبون</button>
+            </form>
 </div>
 </div>
 </div>
 
-        </>
+        </div>
     )
 }
 

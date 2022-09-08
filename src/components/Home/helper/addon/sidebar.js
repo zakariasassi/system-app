@@ -27,9 +27,12 @@ function sidebar() {
                   <ul class="list-unstyled components">
                      <li class="active">
                         <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-dashboard yellow_color"></i> <span>الإدارة الفنية</span></a>
-                        <ul class="collapse list-unstyled" id="dashboard">
+                        <ul class=" list-unstyled" id="dashboard">
                            <li>
                            <Link to="/allmodels"><a> <span> النماذج </span></a></Link>
+                           </li>
+                           <li>
+                               <Link to="/addconumer"><a> <span>اضافة زبون</span></a></Link>
                            </li>
                            <li>
                                <Link to="/addmodel"><a> <span>اضافة نموذج</span></a></Link>

@@ -5,7 +5,7 @@ import logo from '../../../../assets/logo.png'
 import {Button} from 'react-bootstrap'
 function Models() {
   return (
-<>
+<div>
             <Sidebar></Sidebar>
             <div class="full_container">
          <div class="inner_container">
@@ -42,15 +42,86 @@ function Models() {
                   </nav>
                </div>
            
-            <Button variant="primary">Primary</Button>{' '}
-      <Button variant="secondary">Secondary</Button>{' '}
-      <Button variant="success">Success</Button>{' '}
+               <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col"> رقم النموذج</th>
+      <th scope="col">اسم الزبون</th>
+      <th scope="col">الاعتماد</th>
+      <th scope="col">تاريخ الاصادر</th>
+      <th scope="col">تاريخ اخر تعديل</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>43759823</td>
+      <td>العالمية للطيران</td>
+      <td><span class="badge text-bg-danger">لم يعتمد</span></td>
+      <td>31/10/1996</td>
+      <td>31/10</td>
+
+
+    </tr>
+    <tr>
+      <th scope="row">1</th>
+      <td>43759823</td>
+      <td>العالمية للطيران</td>
+      <td><span class="badge text-bg-success">معتمد</span></td>
+      <td>31/10/1996</td>
+      <td>31/10</td>
+
+
+    </tr>
+    <tr>
+      <th scope="row">1</th>
+      <td>43759823</td>
+      <td>العالمية للطيران</td>
+      <td><span class="badge text-bg-success">معتمد</span></td>
+      <td>31/10/1996</td>
+      <td>31/10</td>
+
+
+    </tr>
+    <tr>
+      <th scope="row">1</th>
+      <td>43759823</td>
+      <td>العالمية للطيران</td>
+      <td><span class="badge text-bg-danger">لم يعتمد</span></td>
+      <td>31/10/1996</td>
+      <td>31/10</td>
+
+
+    </tr>
+    <tr>
+      <th scope="row">1</th>
+      <td>43759823</td>
+      <td>العالمية للطيران</td>
+      <td><span class="badge text-bg-danger">لم يعتمد</span></td>
+      <td>31/10/1996</td>
+      <td>31/10</td>
+
+
+    </tr>
+    <tr>
+      <th scope="row">1</th>
+      <td>43759823</td>
+      <td>العالمية للطيران</td>
+      <td><span class="badge text-bg-success">معتمد</span></td>
+      <td>31/10/1996</td>
+      <td>31/10</td>
+
+
+    </tr>
+  </tbody>
+</table>
       
 </div>
 </div>
 </div>
 
-        </>
+        </div>
   )
 }
 
