@@ -22,7 +22,7 @@ function Login() {
          if(response.data.username === username){
            console.log(response.data.username)
            window.localStorage.setItem('isLogIn' , true)
-           window.localStorage.setItem('userID' , response.data.id)
+           window.localStorage.setItem('userID' , response.data.id_user)
            window.localStorage.setItem('username' , response.data.username)
            navigate('/allmodels');
          }else{

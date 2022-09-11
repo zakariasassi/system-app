@@ -1,8 +1,11 @@
-import React , {useState} from 'react'
+import React , {useState , useContext} from 'react'
 import Sidebar from "../../helper/addon/sidebar";
 import { users } from "../../../../tests/users";
 import logo from "../../../../assets/logo.png";
+import { AuthContext } from '../../../loginScreen/AuthContext';
 import axios from "axios"
+import { ToastContainer, toast } from 'react-toastify';
+import Topbar from '../../helper/addon/topbar';
 
 
 
@@ -11,7 +14,6 @@ import axios from "axios"
 
 function AddCosumer() {
 
-
   const [Cname , setCname] = useState('');
   const [Cphone , setCphone] = useState('');
   const [Clocation , setClocation] = useState('');
@@ -19,16 +21,22 @@ function AddCosumer() {
 
   const addNewCustomer = (e) => {
     e.preventDefault();
-    alert(Cphone)
-    axios.post("http://192.168.88.17/app/api/login.php", {
-       name:Cname,
-       phone:Cphone,
-       addres:Clocation,
-    }).then((res) => {
-      console.log(res)
-    }).catch((e) => {
-      console.log(e)
-    })
+    if(Cname === " " && Cphone === " " && Clocation === " "){
+      const errorInput = () => toast("يرجي تعبئة جميع الحقول");
+      errorInput();
+      
+    }else{
+      alert(Cname)
+      axios.post("http://192.168.88.17/app/api/customer_insert.php", {
+        name:Cname,
+        phone:Cphone,
+        address:Clocation,
+     }).then((res) => {
+       console.log(res)
+     }).catch((e) => {
+       console.log(e)
+     })
+    }
 
 
   }
@@ -41,77 +49,12 @@ function AddCosumer() {
     
     <div>
       <Sidebar></Sidebar>
+ 
+
       <div class="full_container" dir="rtl">
         <div class="inner_container">
           <div id="content">
-            <div class="topbar">
-              <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="full">
-                  <button
-                    type="button"
-                    id="sidebarCollapse"
-                    class="sidebar_toggle"
-                  >
-                    <i class="fa fa-bars"></i>
-                  </button>
-                  <div class="logo_section">
-                    <a href="index.html">
-                      <img class="img-responsive" src={logo} alt="#" />
-                    </a>
-                  </div>
-                  <div class="right_topbar">
-                    <div class="icon_info">
-                      <ul>
-                        <li>
-                          <a href="#">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="badge">2</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="fa fa-question-circle"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="badge">3</span>
-                          </a>
-                        </li>
-                      </ul>
-                      <ul class="user_profile_dd">
-                        <li>
-                          <a class="dropdown-toggle" data-toggle="dropdown">
-                            <img
-                              class="img-responsive rounded-circle"
-                              src="images/layout_img/user_img.jpg"
-                              alt="#"
-                            />
-                            <span class="name_user">John David</span>
-                          </a>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="profile.html">
-                              My Profile
-                            </a>
-                            <a class="dropdown-item" href="settings.html">
-                              Settings
-                            </a>
-                            <a class="dropdown-item" href="help.html">
-                              Help
-                            </a>
-                            <a class="dropdown-item" href="login.php">
-                              <span>Log Out</span>{" "}
-                              <i class="fa fa-sign-out"></i>
-                            </a>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </nav>
-            </div>
+            <Topbar/>
 
             <div style={{
               backgroundColor : 'white',
@@ -121,6 +64,7 @@ function AddCosumer() {
             }}>
             <h1 style={{ textAlign: "center", marginTop: 30 }}>
               اضافة زبون الي المنظومة
+             
             </h1>
             <form
               class="row"
@@ -137,6 +81,8 @@ function AddCosumer() {
                 <input
                   type="text"
                   id="customerName"
+                  name='name'
+                  required
                   onChange={e=> setCname(e.target.value)}
                   class="form-control"
                   placeholder="Name"
@@ -146,6 +92,8 @@ function AddCosumer() {
                 <labels for="customerNumber"> رقم الزبون</labels>
                 <input
                   type="text"
+                  name='phone'
+                  required
                   onChange={e=> setCphone(e.target.value)}
                   id="customerNumber"
                   class="form-control"
@@ -156,10 +104,12 @@ function AddCosumer() {
                 <labels for="customerNumber"> العنوان </labels>
                 <input
                   type="text"
-                  onChange={e=> setClocation(e.target.value)}
                   id="customerLocation"
+                  name='address'
                   class="form-control"
                   placeholder="العنوان"
+                  required
+                  onChange={e=> setClocation(e.target.value)}
                 />
               </div>
               <button
@@ -167,7 +117,7 @@ function AddCosumer() {
                 class="btn btn-danger"
                 onClick={addNewCustomer}
               >
-                {" "}
+             
                 اضافة زبون
               </button>
             </form>
@@ -199,6 +149,7 @@ function AddCosumer() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

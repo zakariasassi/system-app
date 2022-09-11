@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 function sidebar() {
+   const name = window.localStorage.getItem('username')
   return (
     <div>
             <nav id="sidebar">
@@ -16,7 +17,7 @@ function sidebar() {
                      <div class="user_profle_side">
                         <div class="user_img"><img class="img-responsive" src="images/layout_img/user_img.jpg" alt="#" /></div>
                         <div class="user_info">
-                           <h6>Zakaria Sassi</h6>
+                           <h6>{name} </h6>
                            <p><span class="online_animation"></span> Online</p>
                         </div>
                      </div>
