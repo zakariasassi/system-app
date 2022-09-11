@@ -1,41 +1,35 @@
 import React , {useState} from 'react'
+import {users} from '../../tests/users'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
-// import '../../constants/engine.js'
+import '../../constants/engine.js'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 function Login() {
-
+   const navigate = useNavigate();
    const [username , setUsername] = useState('');
    const [password , setPassword] = useState('');
 
 
-   const login = (e) => {
-      // console.log({username , password})
-      // const data = JSON.stringify({
-      //    username: username,
-      //    password: password
-      // })
-      // console.log(data)
+   const userlogin = (e) => {
       e.preventDefault();
       axios.post('http://192.168.88.17/app/api/login.php', {
          username: username,
          password: password
-      
       })
       .then((response) => { 
-
-         if(response.data.success === 1){
-            console.log(response.data.username)
-            window.localStorage.setItem('isLogIn' , true)
-
+         console.log(response.data)
+         if(response.data.username === username){
+           console.log(response.data.username)
+           window.localStorage.setItem('isLogIn' , true)
+           window.localStorage.setItem('userID' , response.data.id)
+           window.localStorage.setItem('username' , response.data.username)
+           navigate('/allmodels');
          }else{
             const notify = () => toast(response.data.msg);
             notify();
- 
          }
-      }).catch((e) => console.log(e))
-       
+      }).catch((e) => console.log(e))      
    }
 
   return (
@@ -70,7 +64,7 @@ function Login() {
                       <ToastContainer />
 
                       <div class="field margin_0">
-                         <button  onClick={login} class="main_bt" style={{float:'right'}}> تسجيل دخول</button>
+                         <button  onClick={userlogin} class="main_bt" style={{float:'right'}}> تسجيل دخول</button>
                       </div>
                    </fieldset>
                 </form>

@@ -16,8 +16,8 @@ function App() {
   const authContext = useContext(AuthContext);
   return (
 
-    // <AuthProvider>
           <Routes>
+          <Route exact path="/index" element={<Home /> } />
           <Route exact path="/" element={check  ? <Home /> : <Login/> } />
           <Route path="/login" element={check  ? <Home /> : <Login/> } />
           <Route path="/addconumer" element={<NewConsumer />} />
@@ -25,7 +25,6 @@ function App() {
           <Route path="/allmodels" element={<AllModels />} />
         </Routes>
       
-      // </AuthProvider>
 
   );
 
