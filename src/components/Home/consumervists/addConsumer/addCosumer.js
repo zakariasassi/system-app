@@ -1,8 +1,8 @@
-import React , {useState , useContext} from 'react'
+import React , {useState  , useEffect} from 'react'
 import Sidebar from "../../helper/addon/sidebar";
-import { users } from "../../../../tests/users";
-import logo from "../../../../assets/logo.png";
-import { AuthContext } from '../../../loginScreen/AuthContext';
+// import { users } from "../../../../tests/users";
+// import logo from "../../../../assets/logo.png";
+// import { AuthContext } from '../../../loginScreen/AuthContext';
 import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
 import Topbar from '../../helper/addon/topbar';
@@ -14,11 +14,19 @@ import Topbar from '../../helper/addon/topbar';
 
 function AddCosumer() {
 
+  const [allData , setallData]  = useState([]);
   const [Cname , setCname] = useState('');
   const [Cphone , setCphone] = useState('');
   const [Clocation , setClocation] = useState('');
 
-
+  useEffect(() => {
+      const fetchData =  async () => {
+        const res = await axios.get("");
+        setallData(res.data);
+      }
+      fetchData();
+       }, [])
+       console.log(allData);
   const addNewCustomer = (e) => {
     e.preventDefault();
     if(Cname === " " && Cphone === " " && Clocation === " "){
@@ -26,7 +34,6 @@ function AddCosumer() {
       errorInput();
       
     }else{
-      alert(Cname)
       axios.post("http://192.168.88.17/app/api/customer_insert.php", {
         name:Cname,
         phone:Cphone,
