@@ -19,9 +19,7 @@ function AddCosumer() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        "http://192.168.88.17/app/api/customer_all.php"
-      );
+      const res = await axios.get( "http://192.168.88.17/app/api/customer_all.php");
       setallData(res.data);
     };
     fetchData();
@@ -144,11 +142,7 @@ function AddCosumer() {
                 </tr>
               </thead>
               <tbody>
-                {allData
-                  .filter((data) =>
-                    data.name?.toLowerCase().includes(searching)
-                  )
-                  .map((data) => {
+                {allData.map((data) => {
                     return (
                       <tr key={data.id_customer}>
                         <th scope="row">{data.id_customer}</th>
