@@ -26,6 +26,9 @@ import axios from "axios";
   const [tankpositions , setTankposition] = useState('');
   const [countcy , setCountcu] = useState('');
   const [space , setSpace] = useState('');
+
+
+  
   const [alldata , setAlldata] = useState([])
 
     
@@ -42,8 +45,8 @@ import axios from "axios";
       fetchData();
     }, []);
 
-    const getuserdata = () => {
-      console.log("user")
+    const getuserdata = (e) => {
+      console.log(e.target.value);
     }
 
 
@@ -68,36 +71,42 @@ import axios from "axios";
                   <input
                     type="text"
                     id="customerName"
+                    onChange={ e => setActiviy(e.target.value)}
                     class="form-control"
                     placeholder="نوع النشاط"
                     aria-label="First name"
+                    required
                   />
                   <labels for="customerName"> رقم الهاتف</labels>
                   <input
                     type="number"
                     id="customerName"
+                    onChange={(e) => setPhone(e.target.value)}
                     class="form-control"
                     placeholder="رقم الهاتف"
                     aria-label="First name"
+                    required
                   />
                   <labels for="customerName"> اسم المندوب</labels>
                   <input
                     type="text"
+                    onChange={(e) => setDelvname(e.target.value)}
                     id="customerName"
                     class="form-control"
                     placeholder="اسم المندوب"
+                    required
                     aria-label="First name"
                   />
                 </div>
 
                 <div class="col">
                   <labels for="customerName"> اسم الزبون</labels>
-                  <input type="text" name="city" class="form-control" id="customerName" placeholder="اسم الزبون"  
-                  list="custoname"  / >
-                    <datalist id="custoname">
+                  <input type="text" name="city" class="form-control" onChange={(e) => setCustomername(e.target.value)} id="customerName" placeholder="اسم الزبون"  
+                  list="custoname" required / >
+                    <datalist id="custoname" >
                   
                     { alldata.map( (val) => {
-                        return( <option key={val.id_customer} value={val.name} onClick={getuserdata} />)
+                        return( <option key={val.id_customer} value={val.name}  />)
                         
                       }) }
                     </datalist>
@@ -105,6 +114,8 @@ import axios from "axios";
                   <input
                     type="text"
                     id="customerName"
+                    onChange={(e) => setGeneretor(e.target.value)}
+                    required
                     class="form-control"
                     placeholder="قوة المولد"
                     aria-label="First name"
@@ -113,6 +124,8 @@ import axios from "axios";
                   <input
                     type="date"
                     id="customerName"
+                    onChange={(e) => setDatevist(e.target.value)}
+                    required
                     class="form-control"
                     aria-label="First name"
                   />
@@ -121,6 +134,8 @@ import axios from "axios";
                   <labels for="customerName"> المدينة </labels>
                   <input
                     type="text"
+                    onChange={(e) => setCity(e.target.value)}
+                    required
                     id="customerName"
                     class="form-control"
                     placeholder="المدينة"
@@ -130,6 +145,8 @@ import axios from "axios";
                   <input
                     type="text"
                     id="customerName"
+                    onChange={(e) => setPosition(e.target.value)}
+                    required
                     class="form-control"
                     placeholder="احداثيات الموقع"
                     aria-label="First name"
@@ -154,7 +171,8 @@ import axios from "axios";
                         <input
                           class="form-check-input"
                           type="checkbox"
-                          value=""
+                          onChange={(e) => setPosition(e.target.value)}
+                          value="معدات صناعية"
                           id="flexCheckChecked"
                         />
                       </div>
