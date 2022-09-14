@@ -1,4 +1,4 @@
-  import React ,{useState} from "react";
+  import React ,{useState , useEffect} from "react";
   import Sidebar from "../../helper/addon/sidebar";
   import Topbar from "../../helper/addon/topbar";
 
@@ -29,14 +29,22 @@ import axios from "axios";
   const [alldata , setAlldata] = useState([])
 
     
-    const getAllUsers = async (e) => {
-      const res = await axios.get('http://192.168.88.17/app/api/customer_all_name.php')
-        setAlldata(res.data)
-    }
-    const getuserdata = async () => {
+    // const getAllUsers = async (e) => {
+    //   const res = await axios.get('http://192.168.88.17/app/api/customer_all_name.php')
+    //     setAlldata(res.data)
+    // }
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const res = await axios.get( "http://192.168.88.17/app/api/customer_all_name.php");
+        setAlldata(res.data);
+      };
+      fetchData();
+    }, []);
+
+    const getuserdata = () => {
       console.log("user")
     }
-    console.log(alldata) 
 
 
     return (
@@ -85,11 +93,11 @@ import axios from "axios";
                 <div class="col">
                   <labels for="customerName"> اسم الزبون</labels>
                   <input type="text" name="city" class="form-control" id="customerName" placeholder="اسم الزبون"  
-                  list="custoname" onChange={getAllUsers} / >
+                  list="custoname"  / >
                     <datalist id="custoname">
                   
                     { alldata.map( (val) => {
-                        return( <option value={val.name} onClick={getuserdata} />)
+                        return( <option key={val.id_customer} value={val.name} onClick={getuserdata} />)
                         
                       }) }
                     </datalist>
