@@ -33,23 +33,23 @@ function Topbar() {
                   <div class="right_topbar">
                     <div class="icon_info">
                       <ul>
-                        <li>
+                        {/* <li>
                           <a href="#">
                             <i class="fa fa-bell-o"></i>
                             <span class="badge">2</span>
                           </a>
-                        </li>
-                        <li>
+                        </li> */}
+                        {/* <li>
                           <a href="#">
                             <i class="fa fa-question-circle"></i>
                           </a>
-                        </li>
-                        <li>
+                        </li> */}
+                        {/* <li>
                           <a href="#">
                             <i class="fa fa-envelope-o"></i>
                             <span class="badge">3</span>
                           </a>
-                        </li>
+                        </li> */}
                       </ul>
                       <ul class="user_profile_dd">
                         <li>
@@ -60,7 +60,7 @@ function Topbar() {
                           <div class="dropdown-menu">
                             
                             <a class="dropdown-item">
-                              <span  ><Button onClick={logOutUser} >Log Out  </Button> </span>
+                              <span onClick={logOutUser}> Log Out  </span>
                             </a>
                           </div>
                         </li>

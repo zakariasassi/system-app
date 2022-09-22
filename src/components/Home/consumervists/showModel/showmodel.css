@@ -1,0 +1,24 @@
+.box {
+    height: 70vh;
+    width: 60%;
+    margin: 180px 130px 0 80px;
+    box-shadow: 10px 0px 40px  rgb(108, 108, 108);
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 0;
+    overflow-y: scroll;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3%;
+    transition: all .4s;
+    z-index: 9999;
+    
+}
+
+
+.container {
+    width:90%;
+    margin: auto;
+}
+
