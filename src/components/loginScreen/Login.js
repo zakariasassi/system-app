@@ -5,6 +5,7 @@ import axios from "axios";
 import "../../constants/engine.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { baseUrl } from "../../constants/engine.js";
 function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -12,25 +13,26 @@ function Login() {
 
   const userlogin = (e) => {
     e.preventDefault();
-    axios
-      .post("http://192.168.88.17/app/api/login.php", {
-        username: username,
-        password: password,
-      })
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.username === username) {
-          console.log(response.data.username);
-          window.localStorage.setItem("isLogIn", true);
-          window.localStorage.setItem("userID", response.data.id_user);
-          window.localStorage.setItem("username", response.data.username);
-          navigate("/allmodels");
-        } else {
-          const notify = () => toast(response.data.msg);
-          notify();
-        }
-      })
-      .catch((e) => console.log(e));
+    navigate("/allmodels");
+    // axios
+    //   .post( baseUrl +  "login.php", {
+    //     username: username,
+    //     password: password,
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     if (response.data.username === username) {
+    //       console.log(response.data.username);
+    //       window.localStorage.setItem("isLogIn", true);
+    //       window.localStorage.setItem("userID", response.data.id_user);
+    //       window.localStorage.setItem("username", response.data.username);
+    //       navigate("/allmodels");
+    //     } else {
+    //       const notify = () => toast(response.data.msg);
+    //       notify();
+    //     }
+    //   })
+    //   .catch((e) => console.log(e));
   };
 
   return (

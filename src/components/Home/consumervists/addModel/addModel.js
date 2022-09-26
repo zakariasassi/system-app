@@ -1,14 +1,21 @@
-  import React ,{useState , useEffect} from "react";
+  import React ,{useState , useEffect , useContext} from "react";
   import Sidebar from "../../helper/addon/sidebar";
   import Topbar from "../../helper/addon/topbar";
 import Showmodel from "../showModel/showmodel";
   import { Button } from "react-bootstrap";
   import logo from "../../../../assets/logo.png";
-import axios from "axios";
+import axios from "axios";    
+import { baseUrl } from "../../../../constants/engine";
 
-  function AddModel() {
+import { ModelContext } from "../showModel/modelContext";
 
 
+function AddModel() {
+
+
+  const [open , setOpen] = useState(false)
+  const { isopen , setIsopen } = useContext(ModelContext)
+  const modelContext = useContext(ModelContext)
 
 
 
@@ -36,29 +43,22 @@ import axios from "axios";
   const [countcy , setCountcy] = useState('');
   const [space , setSpace] = useState('');
 
-    const [isopen , setIsopen] = useState(false)
+  //const [isopen , setIsopen] = useState(false)
   const [uper , setUper] = useState('');
   const [downer , setDowner] = useState('');
 
   const [allfueldat , setAllfueldata] = useState([]);
   const [alldata , setAlldata] = useState([])
 
-    
-
-
-    // const getAllUsers = async (e) => {
-    //   const res = await axios.get('http://192.168.88.17/app/api/customer_all_name.php')
-    //     setAlldata(res.data)
-    // }
-
+  
     useEffect(() => {
       const fetchData = async () => {
-        const res = await axios.get( "http://192.168.88.17/app/api/customer_all_name.php");
+        const res = await axios.get( baseUrl + "customer_all_name.php");
         setAlldata(res.data);
       };
 
       const fetchfueldata = async () => {
-        const fuelres = await axios.get("http://192.168.88.17/app/api/fuel_data_all.php");
+        const fuelres = await axios.get( baseUrl + "fuel_data_all.php");
         setAllfueldata(fuelres.data)
         console.log(fuelres.data[0]);
       };
@@ -69,7 +69,8 @@ import axios from "axios";
 
 
     const handelOpenpop = () => {
-   
+        //  setIsopen(!isopen)
+        setOpen(true)
 
     }
 
@@ -93,18 +94,8 @@ import axios from "axios";
       }
       setTankposition(up + " + " + down)
     }
-
-
-
-
-
-
     const handeldata =  (e) => {
       e.preventDefault();
-     
-     
-
-
         console.log(e.target.value)
         let obj = alldata.find(data => data.name === e.target.value)
         console.log(obj)
@@ -112,13 +103,10 @@ import axios from "axios";
           setIdCustomer(obj.id_customer)
           setPhone(obj.phone)
         }
-
         if(e.target.value === ""){
           setPhone("")
         }
     }
-
-
 
     const addnewModel = (e) =>{
       e.preventDefault();
@@ -126,14 +114,8 @@ import axios from "axios";
       console.log(obj)
       console.log(up)
       console.log(down)
-
-    
-
     const userid =  window.localStorage.getItem('userID') ;
-      
-
-
-    axios.post('http://192.168.88.17/app/api/mvc_insert.php' , {
+    axios.post( baseUrl + 'mvc_insert.php' , {
       DATE_VISITS: datevist , 
       ID_CUSTOMER: id_coustom    , 
       DELEGATE_NAME: delvname , 
@@ -153,8 +135,8 @@ import axios from "axios";
     }).catch((err) => {
         console.log(err)
     }) 
+    handelOpenpop();
 
-    setIsopen(!isopen)
     }
     return (
       <div>
@@ -164,10 +146,9 @@ import axios from "axios";
           <div class="inner_container">
           <Topbar />
             <div id="content">
-             
-              {
-          isopen && <Showmodel isopen={isopen}/>
-        }
+            <ModelContext.Provider value={{open , setOpen}} >
+              {open && <Showmodel/>}
+              </ModelContext.Provider>
               <form
                 class="row"
                 style={{

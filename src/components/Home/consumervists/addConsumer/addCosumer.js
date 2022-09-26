@@ -6,7 +6,7 @@ import Sidebar from "../../helper/addon/sidebar";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Topbar from "../../helper/addon/topbar";
-
+import { baseUrl } from "../../../../constants/engine";
 
 
 
@@ -19,7 +19,7 @@ function AddCosumer() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get( "http://192.168.88.17/app/api/customer_all.php");
+      const res = await axios.get(  baseUrl + "customer_all.php");
       setallData(res.data);
     };
     fetchData();
@@ -122,13 +122,37 @@ function AddCosumer() {
               </form>
             </div>
 
-            <input
-              type="text"
-              className="input"
-              placeholder="بحث عن طريق الاسم"
-              onChange={(e) => setsearching(e.target.value)}
-            />
+                <div className="row" style={{
+                  
+                  padding:20
+                }}>
+                 <div className="col">
+                <label for="searchbyname" >بحث عن طريق الاسم</label>
+                 <input id="searchbyname" className="input-group"  placeholder="بحث عن طريق الاسم"/>
+                 </div>
+                 <div className="col">
+                 <label for="from" > من  </label>
+                 <input id="from" type="date" className="input-group" />
+                 </div>
+                 <div className="col">
+                 
+                 <label for="to" > إلي  </label>
+                 <input id="to" type="date" className="input-group" />
+                 </div>
 
+                </div>
+
+                <div className="row" style={{
+                      width:500,
+                      textAlign:'center !important'
+                }}>
+                    <button className="btn-primary " style={{
+                      border:'0px',
+                    
+                      height:'26px',
+                      
+                    }}  >بحث </button>
+                 </div>
             <table class="table">
               <thead>
                 <tr>
