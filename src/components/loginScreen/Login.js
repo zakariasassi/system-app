@@ -13,26 +13,29 @@ function Login() {
 
   const userlogin = (e) => {
     e.preventDefault();
-    navigate("/allmodels");
-    // axios
-    //   .post( baseUrl +  "login.php", {
-    //     username: username,
-    //     password: password,
-    //   })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     if (response.data.username === username) {
-    //       console.log(response.data.username);
-    //       window.localStorage.setItem("isLogIn", true);
-    //       window.localStorage.setItem("userID", response.data.id_user);
-    //       window.localStorage.setItem("username", response.data.username);
-    //       navigate("/allmodels");
-    //     } else {
-    //       const notify = () => toast(response.data.msg);
-    //       notify();
-    //     }
-    //   })
-    //   .catch((e) => console.log(e));
+    axios
+      .post( baseUrl +  "login.php", {
+        username: username,
+        password: password,
+      },
+)
+      .then((response) => {
+        console.log(username);
+        console.log(password);
+
+        console.log(response);
+        if (response.data.username === username) {
+          console.log(response.data.username);
+          window.localStorage.setItem("isLogIn", true);
+          window.localStorage.setItem("userID", response.data.id_user);
+          window.localStorage.setItem("username", response.data.username);
+          navigate("/allmodels");
+        } else {
+          const notify = () => toast(response.data.msg);
+          notify();
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -87,7 +90,7 @@ function Login() {
                       class="main_bt"
                       style={{ float: "right" }}
                     >
-                      {" "}
+                      
                       تسجيل دخول
                     </button>
                   </div>

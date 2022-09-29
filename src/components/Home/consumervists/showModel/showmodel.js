@@ -96,7 +96,7 @@ function Showmodel(props) {
               </div> 
             </div>
             <div className='row'>
-              <p>نوع خزان الوقود</p>
+              <p style={{fontWeight:'bold' , color:'black'}} >نوع خزان الوقود</p>
               <div className='col'>
                   <label for="phonenumber"> بلاستيكي  </label>
                   <h6 id='phonenumber '>zakaria sassi </h6>
@@ -109,9 +109,25 @@ function Showmodel(props) {
             </div>
 
             <div className='row'>
-              <p>موقع وسعة الخزان  </p>
+              <p style={{fontWeight:'bold' , color:'black'}} >موقع وسعة الخزان  </p>
               <div className='col'>
                   <h6 id='phonenumber '>50 لتر (فوق الارض و تحت الارض)  </h6>
+              </div>  
+ 
+            </div>
+
+
+            <div className='row' style={{
+              marginTop:20,
+              marginBottom: 20
+            }}>
+          
+              <div className='col'>
+                  <button className="btn btn-primary btn-sm "  onClick={null}  > طباعة</button>
+              </div>  
+                        
+              <div className='col-10'>
+                  <button  className="btn  btn-danger btn-sm " onClick={null}  > رجوع</button>
               </div>  
  
             </div>

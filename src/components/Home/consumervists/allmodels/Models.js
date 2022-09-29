@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect  , useState} from "react";
 import Sidebar from "../../helper/addon/sidebar";
 import logo from "../../../../assets/logo.png";
 
 import { Button } from "react-bootstrap";
 import Topbar from "../../helper/addon/topbar";
+import axios from "axios";
+import { baseUrl } from "../../../../constants/engine";
 function Models() {
+
+
+
+
+  const [allmodels , setALlModels] = useState([]);
+  useEffect(() =>  {
+    const getModelsData = async () => {
+      const res = await axios.get(baseUrl + "cvm_view_all.php") 
+      console.log(res)
+      if(res ){
+        setALlModels(res.data);
+
+      }
+      else{
+        console.log("no data is avilabel")
+      }
+    }
+    getModelsData();
+  },[]);
+
+
   return (
     <div >
       <Sidebar></Sidebar>
@@ -38,7 +61,6 @@ function Models() {
                       border:'0px',
                       height:'26px',
                       marginTop:20,
-                      
                       display:'block',
                       width: 40,
                       
@@ -48,75 +70,27 @@ function Models() {
             <table class="table" dir="rtl">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
                   <th scope="col"> رقم النموذج</th>
                   <th scope="col">اسم الزبون</th>
-                  <th scope="col">الاعتماد</th>
-                  <th scope="col">تاريخ الاصادر</th>
-                  <th scope="col">تاريخ اخر تعديل</th>
+                  <th scope="col">تاريخ الزيارة</th>
+                  <th scope="col">تاريخ الاضافة </th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>43759823</td>
-                  <td>العالمية للطيران</td>
-                  <td>
-                    <span class="badge text-bg-danger">لم يعتمد</span>
-                  </td>
-                  <td>31/10/1996</td>
-                  <td>31/10</td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>43759823</td>
-                  <td>العالمية للطيران</td>
-                  <td>
-                    <span class="badge text-bg-success">معتمد</span>
-                  </td>
-                  <td>31/10/1996</td>
-                  <td>31/10</td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>43759823</td>
-                  <td>العالمية للطيران</td>
-                  <td>
-                    <span class="badge text-bg-success">معتمد</span>
-                  </td>
-                  <td>31/10/1996</td>
-                  <td>31/10</td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>43759823</td>
-                  <td>العالمية للطيران</td>
-                  <td>
-                    <span class="badge text-bg-danger">لم يعتمد</span>
-                  </td>
-                  <td>31/10/1996</td>
-                  <td>31/10</td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>43759823</td>
-                  <td>العالمية للطيران</td>
-                  <td>
-                    <span class="badge text-bg-danger">لم يعتمد</span>
-                  </td>
-                  <td>31/10/1996</td>
-                  <td>31/10</td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>43759823</td>
-                  <td>العالمية للطيران</td>
-                  <td>
-                    <span class="badge text-bg-success">معتمد</span>
-                  </td>
-                  <td>31/10/1996</td>
-                  <td>31/10</td>
-                </tr>
+                {allmodels.map( (index ) => {
+                  return (
+                    <tr>
+                    <td>{index.id_cvm}</td>
+                    <td> {index.name}</td>
+               
+                    <td>{index.date_visits}</td>
+                    <td>{index.date_create}</td>
+                  </tr>
+                  )
+                } )}
+
+
+
               </tbody>
             </table>
           </div>

@@ -9,6 +9,9 @@ import { baseUrl } from "../../../../constants/engine";
 
 import { ModelContext } from "../showModel/modelContext";
 
+var gasusagearray = [];
+var gastypes = [];
+var tanktypes = [];
 
 function AddModel() {
 
@@ -34,9 +37,24 @@ function AddModel() {
   const [down , setDown] = useState('');
 
   const [id_coustom , setIdCustomer] = useState('');
+
+
+  //using state ---------
   const [gasusage , setGasusage] = useState([]);
   const [gastybe, setGastybe] = useState([]);
   const [tanktybe , setTanktybe] = useState([]);
+  //-------------
+
+
+
+	const [selectedFile, setSelectedFile] = useState();
+	const [isFilePicked, setIsFilePicked] = useState(false);
+  const changeHandler = (event) => {
+		setSelectedFile(event.target.files[0]);
+		setIsFilePicked(true);
+	};
+  const handleSubmission = () => {
+	};
 
   const [tanksize , setTanksize] = useState([]);
   const [tankposition , setTankposition] = useState('');
@@ -56,10 +74,11 @@ function AddModel() {
         const res = await axios.get( baseUrl + "customer_all_name.php");
         setAlldata(res.data);
       };
-
       const fetchfueldata = async () => {
         const fuelres = await axios.get( baseUrl + "fuel_data_all.php");
         setAllfueldata(fuelres.data)
+     
+
         console.log(fuelres.data[0]);
       };
       fetchData();
@@ -67,16 +86,59 @@ function AddModel() {
     },[]);
 
 
+ 
+
+
+        
+         
+    const handelUsingstate = (e) => {
+      const checked = e.target.checked;
+      if (checked === true){
+        gasusagearray.push(e.target.value)
+      }else{
+        gasusagearray = gasusagearray.filter(item => item !== e.target.value)
+      }
+      console.log(gasusagearray)
+  } 
+
+
+  
+
+    const handelGasgTypestate = (e) => {
+      const checked = e.target.checked;
+      if (checked === true){
+        gastypes.push(e.target.value)
+      }else{
+        gastypes = gastypes.filter(item => item !== e.target.value)
+      }
+      console.log(gastypes)
+      
+    } 
+
+    const handelTankTypestate = (e) => {
+      const checked = e.target.checked;
+      if (checked === true){
+        tanktypes.push(e.target.value)
+      }else{
+        tanktypes = tanktypes.filter(item => item !== e.target.value)
+      }
+      console.log(tanktypes)
+      
+    } 
+
+
+
+
+
+
+
 
     const handelOpenpop = () => {
-        //  setIsopen(!isopen)
         setOpen(true)
-
     }
 
 
     const handleTankPosationUP = (e) => {
-      
       if(e.target.checked){
         setUp("فوق سطح الارض")
       }else{
@@ -84,9 +146,7 @@ function AddModel() {
       }
       setTankposition(up + " + " + down)
     }
-
     const handleTankPosationDown = (e) => {
-  
       if( e.target.checked){
         setDown("تحت سطح الارض")
       }else{
@@ -94,6 +154,8 @@ function AddModel() {
       }
       setTankposition(up + " + " + down)
     }
+
+
     const handeldata =  (e) => {
       e.preventDefault();
         console.log(e.target.value)
@@ -108,29 +170,62 @@ function AddModel() {
         }
     }
 
-    const addnewModel = (e) =>{
+
+    function addnewModel  (e) {
       e.preventDefault();
+      const formData = new FormData();
+      formData.append('File', selectedFile);
+      console.log(selectedFile)
+
+      const userid =  window.localStorage.getItem('userID') ;
+      // const data = {
+      //   DATE_VISITS: '2022-09-02' , 
+      //   ID_CUSTOMER: id_coustom    , 
+      //   DELEGATE_NAME: delvname , 
+      //   ACTIVITY_TYPE:activitybe ,
+      //   ADDRESS: city ,
+      //   COORDINATES_LOCATION: position , 
+      //   GENERATOR_POWER :generator, 
+      //   TANK_CAPACITY:tanksize , 
+      //   TANK_LOCATION: up + down, 
+      //   COUNT_EXTINGUISHING_CYLINDERS: countcy , 
+      //   DISTANCE_ALTERNATOR_TANK:space , 
+      //   NOTE:notes , 
+      //   ID_USER:userid,
+      // }
       let obj = alldata.find(data => data.name === customername);
       console.log(obj)
       console.log(up)
       console.log(down)
-    const userid =  window.localStorage.getItem('userID') ;
-    axios.post( baseUrl + 'mvc_insert.php' , {
-      DATE_VISITS: datevist , 
-      ID_CUSTOMER: id_coustom    , 
-      DELEGATE_NAME: delvname , 
-      ACTIVITY_TYPE:activitybe ,
-      ADDRESS: city ,
-      COORDINATES_LOCATION: position , 
-      GENERATOR_POWER :generator, 
-      TANK_CAPACITY:tanksize , 
-      TANK_LOCATION: up + down, 
-      COUNT_EXTINGUISHING_CYLINDERS: countcy , 
-      DISTANCE_ALTERNATOR_TANK:space , 
-      NOTE:notes , 
-      ID_USER :userid,
+      console.log(gasusagearray)
+
+      axios.post( baseUrl + 'cvm_insert.php' , {
+        DATE_VISITS: datevist, 
+        ID_CUSTOMER: id_coustom    , 
+        DELEGATE_NAME: delvname , 
+        ACTIVITY_TYPE:activitybe ,
+        ADDRESS: city ,
+        COORDINATES_LOCATION: position , 
+        GENERATOR_POWER :generator, 
+        TANK_CAPACITY:tanksize , 
+        TANK_LOCATION: up + down, 
+        COUNT_EXTINGUISHING_CYLINDERS: countcy , 
+        DISTANCE_ALTERNATOR_TANK:space , 
+        NOTE:notes , 
+        ID_USER:userid,
+        USAGE_STATE:gasusagearray,
+        FUEL_KIND:gastypes,
+        TANK_KIND:tanktypes
+        // file : formData
+
+
+
+        
+       
+
     }).then((res) => {
-      console.log(res)
+      console.log(res.data)
+      // console.log(data)
 
     }).catch((err) => {
         console.log(err)
@@ -284,12 +379,13 @@ function AddModel() {
                           <input
                             class="form-check-input"
                             type="checkbox"
+                            onChange={ e => handelUsingstate(e) }
                             value={index.id_usage_state}
                             id="flexCheckDefault"
                           />
                         </div>
                         );
-                        }
+                       }
                       })}
 
                     </div>
@@ -311,6 +407,7 @@ function AddModel() {
                       <input
                         class="form-check-input"
                         type="checkbox"
+                        onChange={e => handelGasgTypestate(e)}
                         value={ index.id_fuel_kind}
                         id="flexCheckChecked"
                       />
@@ -322,35 +419,27 @@ function AddModel() {
                   <div className="col">
                     <div class="container ">
                       <p>نوع خزان الوقود </p>
+                      {allfueldat[2]?.map(index => {
+                          return(
 
-                      <div class="form-check">
-                        <label
-                          class="form-check-label pl-3"
-                          for="flexCheckDefault"
-                        >
-                          بلاستيكي
-                        </label>
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefault"
-                        />
-                      </div>
-                      <div class="form-check">
-                        <label
-                          class="form-check-label pl-3"
-                          for="flexCheckChecked"
-                        >
-                          حديدي
-                        </label>
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckChecked"
-                        />
-                      </div>
+                      <div class="form-check ">
+                      <label
+                        class="form-check-label pl-3"
+                        for="flexCheckChecked"
+                      >
+                            {index.name_tank_kind}
+                      </label>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        onChange={e => handelTankTypestate(e)}
+                        value={ index.id_tank_kind}
+                        id="flexCheckChecked"
+                      />
+                    </div>
+                          )
+                        })}
+                    
                     </div>
                   </div>
                 </div>
@@ -418,10 +507,29 @@ function AddModel() {
                           class="form-check-label pl-3"
                           for="flexCheckDefault"
                         >
+                          
                           ملاحظات
                           </label>
                         <textarea style={{width:300}} type="text" id="flexCheckDefault" onChange={ (e) => setNotes(e.target.value) } className="form-control" placeholder="ملاحظات"  />
                         </div>
+                  </div>
+
+                  <div className="row" style={{marginTop:20}}>
+                    <input type="file" className="input-group"  name="file" onChange={changeHandler} />
+                              {isFilePicked ? (
+                  <div>
+                    <p>Filename: {selectedFile.name}</p>
+                    <p>Filetype: {selectedFile.type}</p>
+                    <p>Size in bytes: {selectedFile.size}</p>
+                    <p>
+                      lastModifiedDate:{' '}
+                      {selectedFile.lastModifiedDate.toLocaleDateString()}
+                    </p>
+                  </div>
+			) : (
+				<p>Select a file to show details</p>
+			)}
+			<div></div>
                   </div>
                 <button
                   class="btn btn-danger"

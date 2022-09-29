@@ -20,11 +20,21 @@ function AddCosumer() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(  baseUrl + "customer_all.php");
-      setallData(res.data);
+      console.log(res)
+      if(res.data.success === 0 ){
+        setallData([]);
+        console.log('error')
+
+      }else{
+        setallData(res.data);
+        
+
+      }
     };
     fetchData();
   }, []);
-  console.log(allData);
+
+
   const addNewCustomer = (e) => {
     e.preventDefault();
     if (Cname === " " && Cphone === " " && Clocation === " ") {
@@ -32,7 +42,7 @@ function AddCosumer() {
       errorInput();
     } else {
       axios
-        .post("http://192.168.88.17/app/api/customer_insert.php", {
+        .post( baseUrl  + "customer_insert.php", {
           name: Cname,
           phone: Cphone,
           address: Clocation,
