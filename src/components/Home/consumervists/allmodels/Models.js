@@ -31,8 +31,8 @@ function Models() {
   return (
     <div >
       <Sidebar></Sidebar>
-      <div class="full_container">
-        <div class="inner_container">
+      <div className="full_container">
+        <div className="inner_container">
           <div id="content">
               <Topbar />
 
@@ -41,20 +41,20 @@ function Models() {
                   padding:20
                 }}>
                  <div className="col">
-                <label for="searchbyname" >بحث عن طريق الاسم</label>
+                <label htmlFor="searchbyname" >بحث عن طريق الاسم</label>
                  <input id="searchbyname" className="input-group"  placeholder="بحث عن طريق الاسم"/>
                  </div>
                  <div className="col">
-                <label for="searchbyname" >بحث عن طريق الرقم</label>
+                <label htmlFor="searchbyname" >بحث عن طريق الرقم</label>
                  <input id="searchbyname" className="input-group"  placeholder="بحث عن طريق الرقم"/>
                  </div>
                  <div className="col">
-                 <label for="from" > من  </label>
+                 <label htmlFor="from" > من  </label>
                  <input id="from" type="date" className="input-group" />
                  </div>
                  <div className="col">
                  
-                 <label for="to" > إلي  </label>
+                 <label htmlFor="to" > إلي  </label>
                  <input id="to" type="date" className="input-group" />
                  </div>
                  <button className="btn-primary "    style={{
@@ -67,7 +67,7 @@ function Models() {
                     }}  >بحث </button>
                 </div>
 
-            <table class="table" dir="rtl">
+            <table className="table" dir="rtl">
               <thead>
                 <tr>
                   <th scope="col"> رقم النموذج</th>

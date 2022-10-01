@@ -40,41 +40,41 @@ function Showmodel(props) {
               marginTop:'40px'
             }}>
               <div className='col'>
-                  <label for="cutomername" style={{fontWeight:'bold'}}> اسم الزبون</label>
+                  <label htmlFor="cutomername" style={{fontWeight:'bold'}}> اسم الزبون</label>
                   <h6 id='cutomername '>zakaria sassi </h6>
               </div>  
               <div className='col'>
-                  <label for="activitytybe" style={{fontWeight:'bold'}}> نوع النشاط </label>
+                  <label htmlFor="activitytybe" style={{fontWeight:'bold'}}> نوع النشاط </label>
                   <h6 id='activitytybe '>zakaria sassi </h6>
               </div> 
               <div className='col'>
-                  <label for="deleveryname" style={{fontWeight:'bold'}}> نوع النشاط </label>
+                  <label htmlFor="deleveryname" style={{fontWeight:'bold'}}> نوع النشاط </label>
                   <h6 id='deleveryname '>zakaria sassi </h6>
               </div> 
             </div>
 
             <div className='row'>
               <div className='col'>
-                  <label for="phonenumber" style={{fontWeight:'bold'}}> رقم الهاتف </label>
+                  <label htmlFor="phonenumber" style={{fontWeight:'bold'}}> رقم الهاتف </label>
                   <h6 id='phonenumber '>zakaria sassi </h6>
               </div>  
               <div className='col'>
-                  <label for="city" style={{fontWeight:'bold'}}> المدينة  </label>
+                  <label htmlFor="city" style={{fontWeight:'bold'}}> المدينة  </label>
                   <h6 id='city '> city </h6>
               </div> 
               <div className='col'>
-                  <label for="latitudeandlongitude " style={{fontWeight:'bold'}}> احداثيات الموقع  </label>
+                  <label htmlFor="latitudeandlongitude " style={{fontWeight:'bold'}}> احداثيات الموقع  </label>
                   <h6 id='latitudeandlongitude '>zakaria sassi </h6>
               </div> 
             </div>
 
             <div className='row'>
               <div className='col'>
-                  <label for="phonenumber" style={{fontWeight:'bold'}}> رقم الهاتف </label>
+                  <label htmlFor="phonenumber" style={{fontWeight:'bold'}}> رقم الهاتف </label>
                   <h6 id='phonenumber '>zakaria sassi </h6>
               </div>  
               <div className='col-8'>
-                  <label for="poergertor" style={{fontWeight:'bold'}}>قوة المولد  </label>
+                  <label htmlFor="poergertor" style={{fontWeight:'bold'}}>قوة المولد  </label>
                   <h6 id='poergertor '> power </h6>
               </div> 
        
@@ -83,26 +83,26 @@ function Showmodel(props) {
             <div className='row'>
               <p style={{fontWeight:'bold' , color:'black'}}>نوع الوقود</p>
               <div className='col'>
-                  <label for="phonenumber" > بنزين  </label>
+                  <label htmlFor="phonenumber" > بنزين  </label>
                   <h6 id='phonenumber '>zakaria sassi </h6>
               </div>  
               <div className='col'>
-                  <label for="poergertor">ديزل   </label>
+                  <label htmlFor="poergertor">ديزل   </label>
                   <h6 id='poergertor '> power </h6>
               </div> 
               <div className='col'>
-                  <label for="poergertor"> كيريسين</label>
+                  <label htmlFor="poergertor"> كيريسين</label>
                   <h6 id='poergertor '> power </h6>
               </div> 
             </div>
             <div className='row'>
               <p style={{fontWeight:'bold' , color:'black'}} >نوع خزان الوقود</p>
               <div className='col'>
-                  <label for="phonenumber"> بلاستيكي  </label>
+                  <label htmlFor="phonenumber"> بلاستيكي  </label>
                   <h6 id='phonenumber '>zakaria sassi </h6>
               </div>  
               <div className='col'>
-                  <label for="poergertor">بلاستيكي   </label>
+                  <label htmlFor="poergertor">بلاستيكي   </label>
                   <h6 id='poergertor '> power </h6>
               </div> 
  

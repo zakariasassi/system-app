@@ -6,44 +6,44 @@ function sidebar() {
   return (
     <div>
             <nav id="sidebar">
-               <div class="sidebar_blog_1">
-                  <div class="sidebar-header">
-                     <div class="logo_section">
-                        <a href="index.html"><img class="logo_icon img-responsive" src="images/logo/logo_icon.png" alt="#" /></a>
+               <div className="sidebar_blog_1">
+                  <div className="sidebar-header">
+                     <div className="logo_section">
+                        <Link to="#"><img className="logo_icon img-responsive" src="images/logo/logo_icon.png" alt="#" /></Link>
                      </div>
                   </div>
-                  <div class="sidebar_user_info">
-                     <div class="icon_setting"></div>
-                     <div class="user_profle_side">
-                        <div class="user_img"><img class="img-responsive" src="images/layout_img/user_img.jpg" alt="#" /></div>
-                        <div class="user_info">
+                  <div className="sidebar_user_info">
+                     <div className="icon_setting"></div>
+                     <div className="user_profle_side">
+                        <div className="user_img"><img className="img-responsive" src="images/layout_img/user_img.jpg" alt="#" /></div>
+                        <div className="user_info">
                            <h6>{name} </h6>
-                           <p><span class="online_animation"></span> Online</p>
+                           <p><span className="online_animation"></span> Online</p>
                         </div>
                      </div>
                   </div>
                </div>
-               <div class="sidebar_blog_2">
+               <div className="sidebar_blog_2">
                   <h4>General</h4>
-                  <ul class="list-unstyled components">
-                     <li class="active">
-                        <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-dashboard yellow_color"></i> <span>الإدارة الفنية</span></a>
-                        <ul class=" list-unstyled" id="dashboard">
+                  <ul className="list-unstyled components">
+                     <li className="active">
+                        <Link to="#dashboard" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i className="fa fa-dashboard yellow_color"></i> <span>الإدارة الفنية</span></Link>
+                        <ul className=" list-unstyled" id="dashboard">
                            <li>
-                           <Link to="/allmodels"><a> <span> النماذج </span></a></Link>
+                           <Link to="/allmodels"> <span> النماذج </span></Link>
                            </li>
                            <li>
-                               <Link to="/addconumer"><a> <span>اضافة زبون</span></a></Link>
+                               <Link to="/addconumer"><span>اضافة زبون</span></Link>
                            </li>
                            <li>
-                               <Link to="/addmodel"><a> <span>اضافة نموذج</span></a></Link>
+                               <Link to="/addmodel"><span>اضافة نموذج</span></Link>
                            </li>
                         </ul>
                      </li>
                     
-                     {/* <li><a href="map.html"><i class="fa fa-map purple_color2"></i> <span>Map</span></a></li>
-                     <li><a href="charts.html"><i class="fa fa-bar-chart-o green_color"></i> <span>Charts</span></a></li>
-                     <li><a href="settings.html"><i class="fa fa-cog yellow_color"></i> <span>Settings</span></a></li> */}
+                     {/* <li><a to="map.html"><i className="fa fa-map purple_color2"></i> <span>Map</span></a></li>
+                     <li><a to="charts.html"><i className="fa fa-bar-chart-o green_color"></i> <span>Charts</span></a></li>
+                     <li><a to="settings.html"><i className="fa fa-cog yellow_color"></i> <span>Settings</span></a></li> */}
                   </ul>
                </div>
             </nav>

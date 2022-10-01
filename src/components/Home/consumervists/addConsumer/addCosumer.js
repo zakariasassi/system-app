@@ -18,18 +18,22 @@ function AddCosumer() {
   const [searching, setsearching] = useState("");
 
   useEffect(() => {
+
     const fetchData = async () => {
       const res = await axios.get(  baseUrl + "customer_all.php");
       console.log(res)
-      if(res.data.success === 0 ){
-        setallData([]);
-        console.log('error')
-
+      if (res){
+        if(res.data.success === 0 ){
+          setallData([]);
+          console.log('error')
+  
+        }else{
+          setallData(res.data);
+        }
       }else{
-        setallData(res.data);
-        
-
+        console.log("Bad gatawy")
       }
+ 
     };
     fetchData();
   }, []);
@@ -40,7 +44,13 @@ function AddCosumer() {
     if (Cname === " " && Cphone === " " && Clocation === " ") {
       const errorInput = () => toast("يرجي تعبئة جميع الحقول");
       errorInput();
-    } else {
+    } else if(Cname.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) ){
+      const errorInput = () => toast("يرجي تعبئة اسم الزبون بطريقة صحيحة");
+      errorInput();
+    }else if (Cphone >= 6 ){
+      const errorInput = () => toast("يرجي تعبئة رقم الهاتف بريقة صحيحة ");
+      errorInput();
+    }else {
       axios
         .post( baseUrl  + "customer_insert.php", {
           name: Cname,
@@ -58,10 +68,12 @@ function AddCosumer() {
 
   return (
     <div>
+            <ToastContainer />
+
       <Sidebar></Sidebar>
 
-      <div class="full_container" dir="rtl">
-        <div class="inner_container">
+      <div className="full_container" dir="rtl">
+        <div className="inner_container">
           <div id="content">
             <Topbar />
 
@@ -77,7 +89,7 @@ function AddCosumer() {
                 اضافة زبون الي المنظومة
               </h1>
               <form
-                class="row"
+                className="row"
                 style={{
                   marginBottom: 60,
                   marginTop: 30,
@@ -86,37 +98,37 @@ function AddCosumer() {
                   marginLeft: "auto",
                 }}
               >
-                <div class="col">
-                  <labels for="customerName"> اسم الزبون</labels>
+                <div className="col">
+                  <label htmlFor="customerName"> اسم الزبون</label>
                   <input
                     type="text"
                     id="customerName"
                     name="name"
                     required
                     onChange={(e) => setCname(e.target.value)}
-                    class="form-control"
+                    className="form-control"
                     placeholder="Name"
                   />
                 </div>
-                <div class="col">
-                  <labels for="customerNumber"> رقم الزبون</labels>
+                <div className="col">
+                  <label htmlFor="customerNumber"> رقم الزبون</label>
                   <input
                     type="text"
                     name="phone"
                     required
                     onChange={(e) => setCphone(e.target.value)}
                     id="customerNumber"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Phone Number"
                   />
                 </div>
-                <div class="col">
-                  <labels for="customerNumber"> العنوان </labels>
+                <div className="col">
+                  <label htmlFor="customerNumber"> العنوان </label>
                   <input
                     type="text"
                     id="customerLocation"
                     name="address"
-                    class="form-control"
+                    className="form-control"
                     placeholder="العنوان"
                     required
                     onChange={(e) => setClocation(e.target.value)}
@@ -124,7 +136,7 @@ function AddCosumer() {
                 </div>
                 <button
                   style={{ marginTop: 30 }}
-                  class="btn btn-danger"
+                  className="btn btn-danger"
                   onClick={addNewCustomer}
                 >
                   اضافة زبون
@@ -137,16 +149,16 @@ function AddCosumer() {
                   padding:20
                 }}>
                  <div className="col">
-                <label for="searchbyname" >بحث عن طريق الاسم</label>
+                <label htmlFor="searchbyname" >بحث عن طريق الاسم</label>
                  <input id="searchbyname" className="input-group"  placeholder="بحث عن طريق الاسم"/>
                  </div>
                  <div className="col">
-                 <label for="from" > من  </label>
+                 <label htmlFor="from" > من  </label>
                  <input id="from" type="date" className="input-group" />
                  </div>
                  <div className="col">
                  
-                 <label for="to" > إلي  </label>
+                 <label htmlFor="to" > إلي  </label>
                  <input id="to" type="date" className="input-group" />
                  </div>
 
@@ -163,7 +175,7 @@ function AddCosumer() {
                       
                     }}  >بحث </button>
                  </div>
-            <table class="table">
+            <table className="table">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -184,24 +196,24 @@ function AddCosumer() {
                         <td>{data.phone} </td>
                         <td>
                           {data.active ? (
-                            <span class="badge text-bg-info">معتمد </span>
+                            <span className="badge text-bg-info">معتمد </span>
                           ) : (
-                            <span class="badge text-bg-danger"> غير معتمد</span>
+                            <span className="badge text-bg-danger"> غير معتمد</span>
                           )}
                         </td>
                         <td>{data.address}</td>
                         <td>
-                          <button type="button" class="btn btn-warning">
+                          <button type="button" className="btn btn-warning">
                             عرض الزيارات{" "}
                           </button>
                         </td>
                         <td>
                           {data.active ? (
-                            <button type="button" class="btn btn-danger">
+                            <button type="button" className="btn btn-danger">
                               الغاء تفعيل
                             </button>
                           ) : (
-                            <button type="button" class="btn btn-info">
+                            <button type="button" className="btn btn-info">
                               تفعيل
                             </button>
                           )}
@@ -214,7 +226,6 @@ function AddCosumer() {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

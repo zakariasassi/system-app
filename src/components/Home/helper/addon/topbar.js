@@ -15,51 +15,51 @@ function Topbar() {
     }
   return (
     <div>
-           <div class="topbar">
-              <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="full">
+           <div className="topbar">
+              <nav className="navbar navbar-expand-lg navbar-light">
+                <div className="full">
                   <button
                     type="button"
                     id="sidebarCollapse"
-                    class="sidebar_toggle"
+                    className="sidebar_toggle"
                   >
-                    <i class="fa fa-bars"></i>
+                    <i className="fa fa-bars"></i>
                   </button>
-                  <div class="logo_section">
+                  <div className="logo_section">
                     <a href="index.html">
-                      <img class="img-responsive" src={logo} alt="#" />
+                      <img className="img-responsive" src={logo} alt="#" />
                     </a>
                   </div>
-                  <div class="right_topbar">
-                    <div class="icon_info">
+                  <div className="right_topbar">
+                    <div className="icon_info">
                       <ul>
                         {/* <li>
                           <a href="#">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="badge">2</span>
+                            <i className="fa fa-bell-o"></i>
+                            <span className="badge">2</span>
                           </a>
                         </li> */}
                         {/* <li>
                           <a href="#">
-                            <i class="fa fa-question-circle"></i>
+                            <i className="fa fa-question-circle"></i>
                           </a>
                         </li> */}
                         {/* <li>
                           <a href="#">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="badge">3</span>
+                            <i className="fa fa-envelope-o"></i>
+                            <span className="badge">3</span>
                           </a>
                         </li> */}
                       </ul>
-                      <ul class="user_profile_dd">
+                      <ul className="user_profile_dd">
                         <li>
-                          <a class="dropdown-toggle" data-toggle="dropdown">
+                          <a className="dropdown-toggle" data-toggle="dropdown">
                      
-                            <span class="name_user">{name}</span>
+                            <span className="name_user">{name}</span>
                           </a>
-                          <div class="dropdown-menu">
+                          <div className="dropdown-menu">
                             
-                            <a class="dropdown-item">
+                            <a className="dropdown-item">
                               <span onClick={logOutUser}> Log Out  </span>
                             </a>
                           </div>

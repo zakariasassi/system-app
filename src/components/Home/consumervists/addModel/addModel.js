@@ -38,7 +38,7 @@ function AddModel() {
 
   const [id_coustom , setIdCustomer] = useState('');
 
-
+  const [flag , setFlag] = useState("0");
   //using state ---------
   const [gasusage , setGasusage] = useState([]);
   const [gastybe, setGastybe] = useState([]);
@@ -60,7 +60,7 @@ function AddModel() {
   const [tankposition , setTankposition] = useState('');
   const [countcy , setCountcy] = useState('');
   const [space , setSpace] = useState('');
-
+  const [viewMode , setViewModel] = useState([])
   //const [isopen , setIsopen] = useState(false)
   const [uper , setUper] = useState('');
   const [downer , setDowner] = useState('');
@@ -100,8 +100,6 @@ function AddModel() {
       }
       console.log(gasusagearray)
   } 
-
-
   
 
     const handelGasgTypestate = (e) => {
@@ -133,9 +131,7 @@ function AddModel() {
 
 
 
-    const handelOpenpop = () => {
-        setOpen(true)
-    }
+
 
 
     const handleTankPosationUP = (e) => {
@@ -217,35 +213,36 @@ function AddModel() {
         FUEL_KIND:gastypes,
         TANK_KIND:tanktypes
         // file : formData
-
-
-
-        
-       
-
     }).then((res) => {
       console.log(res.data)
+      setFlag(   res.data.success.toString())
+      setViewModel(res.data)
       // console.log(data)
 
     }).catch((err) => {
         console.log(err)
     }) 
-    handelOpenpop();
+    const handelOpenpop = () => {
+      if(flag === 1){
+        setOpen(true)
+      }
+    
+  }
 
     }
     return (
       <div>
  
         <Sidebar></Sidebar>
-        <div class="full_container" dir="rtl">
-          <div class="inner_container">
+        <div className="full_container" dir="rtl">
+          <div className="inner_container">
           <Topbar />
             <div id="content">
             <ModelContext.Provider value={{open , setOpen}} >
               {open && <Showmodel/>}
               </ModelContext.Provider>
               <form
-                class="row"
+                className="row"
                 style={{
                   marginTop: 100,
                   width: "80%",
@@ -253,43 +250,43 @@ function AddModel() {
                   marginLeft: "auto",
                 }}
               >
-                <div class="col">
-                  <labels for="customerName"> نوع النشاط</labels>
+                <div className="col">
+                  <label htmlFor="customerName"> نوع النشاط</label>
                   <input
                     type="text"
                     id="customerName"
                     onChange={ e => setActiviy(e.target.value)}
-                    class="form-control"
+                    className="form-control"
                     placeholder="نوع النشاط"
                     aria-label="First name"
                     required
                   />
-                  <labels for="customerName"> رقم الهاتف</labels>
+                  <label htmlFor="customerName"> رقم الهاتف</label>
                   <input
                     type="number"
                     id="customerName"
                     onChange={(e) => setPhone(e.target.value)}
-                    class="form-control"
+                    className="form-control"
                     placeholder="رقم الهاتف"
                     value={phone}
                     aria-label="First name"
                     required
                   />
-                  <labels for="customerName"> اسم المندوب</labels>
+                  <label htmlFor="customerName"> اسم المندوب</label>
                   <input
                     type="text"
                     onChange={(e) => setDelvname(e.target.value)}
                     id="customerName"
-                    class="form-control"
+                    className="form-control"
                     placeholder="اسم المندوب"
                     required
                     aria-label="First name"
                   />
                 </div>
                 {/* onChange={(e) => setCustomername(e.target.value)}  */}
-                <div class="col">
-                  <labels for="customerName"> اسم الزبون</labels>
-                  <input type="text" name="city" class="form-control" 
+                <div className="col">
+                  <label htmlFor="customerName"> اسم الزبون</label>
+                  <input type="text" name="city" className="form-control" 
                     onChange={ handeldata }
                    id="customerName" placeholder="اسم الزبون"  
                   list="custoname"  required />
@@ -307,44 +304,44 @@ function AddModel() {
 
 
 
-                  <labels for="customerName"> قوة المولد</labels>
+                  <label htmlFor="customerName"> قوة المولد</label>
                   <input
                     type="text"
                     id="customerName"
                     onChange={(e) => setGeneretor(e.target.value)}
                     required
-                    class="form-control"
+                    className="form-control"
                     placeholder="قوة المولد"
                     aria-label="First name"
                   />
-                    <labels for="customerName"> تاريخ الزيارة </labels>
+                    <label htmlFor="customerName"> تاريخ الزيارة </label>
                   <input
                     type="date"
                     id="customerName"
                     onChange={(e) => setDatevist(e.target.value)}
                     required
-                    class="form-control"
+                    className="form-control"
                     aria-label="First name"
                   />
                 </div>
-                <div class="col">
-                  <labels for="customerName"> المدينة </labels>
+                <div className="col">
+                  <label htmlFor="customerName"> المدينة </label>
                   <input
                     type="text"
                     onChange={(e) => setCity(e.target.value)}
                     required
                     id="customerName"
-                    class="form-control"
+                    className="form-control"
                     placeholder="المدينة"
                     aria-label="First name"
                   />
-                  <labels for="customerName"> احداثيات الموقع </labels>
+                  <label htmlFor="customerName"> احداثيات الموقع </label>
                   <input
                     type="text"
                     id="customerName"
                     onChange={(e) => setPosition(e.target.value)}
                     required
-                    class="form-control"
+                    className="form-control"
                     placeholder="احداثيات الموقع"
                     aria-label="First name"
                   />
@@ -354,7 +351,7 @@ function AddModel() {
                 </p>
                 <div className="row">
                   <div className="col">
-                    <div class="container ">
+                    <div className="container ">
                       <p>الية استعمال الوقود </p>
                       {allfueldat[0]?.map(index => {
                         if(index.success === 0)
@@ -369,15 +366,15 @@ function AddModel() {
                         else
                         {
                         return (
-                          <div class="form-check">
+                          <div className="form-check">
                           <label
-                            class="form-check-label pl-3"
-                            for="flexCheckDefault"
+                            className="form-check-label pl-3"
+                            htmlFor="flexCheckDefault"
                           >
                             {index.name_usage_state}
                           </label>
                           <input
-                            class="form-check-input"
+                            className="form-check-input"
                             type="checkbox"
                             onChange={ e => handelUsingstate(e) }
                             value={index.id_usage_state}
@@ -391,21 +388,21 @@ function AddModel() {
                     </div>
                   </div>
                   <div className="col">
-                    <div class="container ">
+                    <div className="container ">
                       <p>نوع الوقود </p>
 
                         {allfueldat[1]?.map(index => {
                           return(
 
-                      <div class="form-check ">
+                      <div className="form-check ">
                       <label
-                        class="form-check-label pl-3"
-                        for="flexCheckChecked"
+                        className="form-check-label pl-3"
+                        htmlFor="flexCheckChecked"
                       >
                             {index.name_fuel_kind}
                       </label>
                       <input
-                        class="form-check-input"
+                        className="form-check-input"
                         type="checkbox"
                         onChange={e => handelGasgTypestate(e)}
                         value={ index.id_fuel_kind}
@@ -417,20 +414,20 @@ function AddModel() {
                     </div>
                   </div>
                   <div className="col">
-                    <div class="container ">
+                    <div className="container ">
                       <p>نوع خزان الوقود </p>
                       {allfueldat[2]?.map(index => {
                           return(
 
-                      <div class="form-check ">
+                      <div className="form-check ">
                       <label
-                        class="form-check-label pl-3"
-                        for="flexCheckChecked"
+                        className="form-check-label pl-3"
+                        htmlFor="flexCheckChecked"
                       >
                             {index.name_tank_kind}
                       </label>
                       <input
-                        class="form-check-input"
+                        className="form-check-input"
                         type="checkbox"
                         onChange={e => handelTankTypestate(e)}
                         value={ index.id_tank_kind}
@@ -449,19 +446,19 @@ function AddModel() {
                 <div className="row">                
                       <p> سعة الخزان</p>
                         <div className="col" >
-                          <input type='number' class="form-control" onChange={(e) => setTanksize( e.target.value)} placeholder="ادخل سعة الخزان"  />
+                          <input type='number' className="form-control" onChange={(e) => setTanksize( e.target.value)} placeholder="ادخل سعة الخزان"  />
                         </div>
 
                         <div className="col" >
-                        <div class="form-check">
+                        <div className="form-check">
                         <label
-                          class="form-check-label pl-3"
-                          for="flexChec"
+                          className="form-check-label pl-3"
+                          htmlFor="flexChec"
                         >
                           فوق الارض
                         </label>
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           onChange={ e => handleTankPosationUP(e)}
                           value="up"
@@ -470,15 +467,15 @@ function AddModel() {
                         </div>
                         </div>
                         <div className="col" >
-                        <div class="form-check">
+                        <div className="form-check">
                         <label
-                          class="form-check-label pl-3"
-                          for="flexCheckk"
+                          className="form-check-label pl-3"
+                          htmlFor="flexCheckk"
                         >
                           تحت الارض
                         </label>
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           value="down"
                           onChange={ e => handleTankPosationDown(e)}
@@ -492,11 +489,11 @@ function AddModel() {
                         marginTop:20
                       }}>
                     <div className="col" >
-                      <input style={{width:300}}  onChange={(e) => setCountcy(e.target.value)}  type='number' class="form-control" placeholder="عدد اسطوانات الإطفاء"  />
+                      <input style={{width:300}}  onChange={(e) => setCountcy(e.target.value)}  type='number' className="form-control" placeholder="عدد اسطوانات الإطفاء"  />
                     </div>
 
                     <div className="col" >
-                    <input style={{width:300}}  onChange={(e) => setSpace(e.target.value)}type='number'class="form-control" placeholder="بعد الخزان عن المولد"  />
+                    <input style={{width:300}}  onChange={(e) => setSpace(e.target.value)}type='number'className="form-control" placeholder="بعد الخزان عن المولد"  />
                     </div>
                   </div>
                   <div className="row" style={{
@@ -504,8 +501,8 @@ function AddModel() {
                       }}>
                         <div className="col">
                         <label
-                          class="form-check-label pl-3"
-                          for="flexCheckDefault"
+                          className="form-check-label pl-3"
+                          htmlFor="flexCheckDefault"
                         >
                           
                           ملاحظات
@@ -532,7 +529,7 @@ function AddModel() {
 			<div></div>
                   </div>
                 <button
-                  class="btn btn-danger"
+                  className="btn btn-danger"
                   onClick={ addnewModel}
                   style={{ marginTop: 50 }}
                 >
