@@ -2,10 +2,11 @@
   import Sidebar from "../../helper/addon/sidebar";
   import Topbar from "../../helper/addon/topbar";
 import Showmodel from "../showModel/showmodel";
-  import { Button } from "react-bootstrap";
-  import logo from "../../../../assets/logo.png";
+//import { Button } from "react-bootstrap";
+//import logo from "../../../../assets/logo.png";
 import axios from "axios";    
 import { baseUrl } from "../../../../constants/engine";
+import { ToastContainer, toast } from "react-toastify";
 
 import { ModelContext } from "../showModel/modelContext";
 
@@ -17,28 +18,27 @@ function AddModel() {
 
 
   const [open , setOpen] = useState(false)
-  const { isopen , setIsopen } = useContext(ModelContext)
-  const modelContext = useContext(ModelContext)
 
 
 
+  const [customername , setCustomername] = useState("");
+  const [activitybe , setActiviy] = useState("");
+  const [datevist , setDatevist] = useState("");
+  const [city , setCity] = useState("");
+  const [phone , setPhone] = useState("")
+  const [generator , setGeneretor] = useState("");
+  const [position , setPosition] = useState("");
+  const [delvname , setDelvname] = useState("")
+  const [notes , setNotes] = useState("");
 
-  const [customername , setCustomername] = useState('');
-  const [activitybe , setActiviy] = useState('');
-  const [datevist , setDatevist] = useState('');
-  const [city , setCity] = useState('');
-  const [phone , setPhone] = useState('')
-  const [generator , setGeneretor] = useState('');
-  const [position , setPosition] = useState('');
-  const [delvname , setDelvname] = useState('')
-  const [notes , setNotes] = useState('');
+  const [up , setUp] = useState(" ")
+  const [down , setDown] = useState(" ");
 
-  const [up , setUp] = useState('')
-  const [down , setDown] = useState('');
-
-  const [id_coustom , setIdCustomer] = useState('');
+  const [id_coustom , setIdCustomer] = useState("");
 
   const [flag , setFlag] = useState("0");
+
+
   //using state ---------
   const [gasusage , setGasusage] = useState([]);
   const [gastybe, setGastybe] = useState([]);
@@ -57,13 +57,10 @@ function AddModel() {
 	};
 
   const [tanksize , setTanksize] = useState([]);
-  const [tankposition , setTankposition] = useState('');
-  const [countcy , setCountcy] = useState('');
-  const [space , setSpace] = useState('');
+  const [countcy , setCountcy] = useState("");
+  const [space , setSpace] = useState("");
   const [viewMode , setViewModel] = useState([])
-  //const [isopen , setIsopen] = useState(false)
-  const [uper , setUper] = useState('');
-  const [downer , setDowner] = useState('');
+
 
   const [allfueldat , setAllfueldata] = useState([]);
   const [alldata , setAlldata] = useState([])
@@ -77,20 +74,13 @@ function AddModel() {
       const fetchfueldata = async () => {
         const fuelres = await axios.get( baseUrl + "fuel_data_all.php");
         setAllfueldata(fuelres.data)
-     
-
-        console.log(fuelres.data[0]);
+        console.log(fuelres.data);
       };
       fetchData();
       fetchfueldata();  
     },[]);
 
-
- 
-
-
-        
-         
+    
     const handelUsingstate = (e) => {
       const checked = e.target.checked;
       if (checked === true){
@@ -124,23 +114,12 @@ function AddModel() {
       
     } 
 
-
-
-
-
-
-
-
-
-
-
     const handleTankPosationUP = (e) => {
       if(e.target.checked){
         setUp("فوق سطح الارض")
       }else{
         setUp(" ")
       }
-      setTankposition(up + " + " + down)
     }
     const handleTankPosationDown = (e) => {
       if( e.target.checked){
@@ -148,7 +127,6 @@ function AddModel() {
       }else{
         setDown(" ")
       }
-      setTankposition(up + " + " + down)
     }
 
 
@@ -169,72 +147,85 @@ function AddModel() {
 
     function addnewModel  (e) {
       e.preventDefault();
-      const formData = new FormData();
-      formData.append('File', selectedFile);
-      console.log(selectedFile)
 
+      //input validation 
       const userid =  window.localStorage.getItem('userID') ;
-      // const data = {
-      //   DATE_VISITS: '2022-09-02' , 
-      //   ID_CUSTOMER: id_coustom    , 
-      //   DELEGATE_NAME: delvname , 
-      //   ACTIVITY_TYPE:activitybe ,
-      //   ADDRESS: city ,
-      //   COORDINATES_LOCATION: position , 
-      //   GENERATOR_POWER :generator, 
-      //   TANK_CAPACITY:tanksize , 
-      //   TANK_LOCATION: up + down, 
-      //   COUNT_EXTINGUISHING_CYLINDERS: countcy , 
-      //   DISTANCE_ALTERNATOR_TANK:space , 
-      //   NOTE:notes , 
-      //   ID_USER:userid,
-      // }
-      let obj = alldata.find(data => data.name === customername);
-      console.log(obj)
-      console.log(up)
-      console.log(down)
-      console.log(gasusagearray)
 
-      axios.post( baseUrl + 'cvm_insert.php' , {
-        DATE_VISITS: datevist, 
-        ID_CUSTOMER: id_coustom    , 
-        DELEGATE_NAME: delvname , 
-        ACTIVITY_TYPE:activitybe ,
-        ADDRESS: city ,
-        COORDINATES_LOCATION: position , 
-        GENERATOR_POWER :generator, 
-        TANK_CAPACITY:tanksize , 
-        TANK_LOCATION: up + down, 
-        COUNT_EXTINGUISHING_CYLINDERS: countcy , 
-        DISTANCE_ALTERNATOR_TANK:space , 
-        NOTE:notes , 
-        ID_USER:userid,
-        USAGE_STATE:gasusagearray,
-        FUEL_KIND:gastypes,
-        TANK_KIND:tanktypes
-        // file : formData
-    }).then((res) => {
-      console.log(res.data)
-      setFlag(   res.data.success.toString())
-      setViewModel(res.data)
-      // console.log(data)
+      if(!customername && !id_coustom  &&  !datevist  && !generator  ){
+            const errorInput = () => toast("يرجي ادخال كل البيانات صحيحة ");
+            errorInput();
 
-    }).catch((err) => {
-        console.log(err)
-    }) 
-    const handelOpenpop = () => {
-      if(flag === 1){
-        setOpen(true)
+      }else if ((up === " " && down === " ")){
+        const errorInput = () => toast("يرجي  اختيار موقع الخزان ");
+        document.getElementById('lup').style.color = "red"
+
+        errorInput();
+      }else if ( (gasusagearray.length === 0 )   && (tanktypes.length === 0) ){
+        const errorInput = () => toast(" يرجي ادخال بيانات  الحالة");
+        errorInput();
+      }else if ( gastypes.length === 0  ) {
+        const errorInput = () => toast(" يرجي ادخال بيانات  الحالة");
+        errorInput();
       }
-    
+        else{
+
+        const formData = new FormData();
+        formData.append('File', selectedFile);
+
+        console.log(selectedFile)
+        let obj = alldata.find(data => data.name === customername);
+        console.log(obj)
+        console.log(up)
+        console.log(down)
+        axios.post( baseUrl + 'cvm_insert.php' , {
+
+          DATE_VISITS: datevist, 
+          ID_CUSTOMER: id_coustom , 
+          DELEGATE_NAME: delvname , 
+          ACTIVITY_TYPE:activitybe ,
+          PHONE:phone,
+          ADDRESS: city ,
+          COORDINATES_LOCATION: position , 
+          GENERATOR_POWER :generator, 
+          TANK_CAPACITY:tanksize , 
+          TANK_LOCATION: up + down, 
+          COUNT_EXTINGUISHING_CYLINDERS: countcy , 
+          DISTANCE_ALTERNATOR_TANK:space , 
+          NOTE:notes , 
+          ID_USER:userid,
+          USAGE_STATE:gasusagearray,
+          FUEL_KIND:gastypes,
+          TANK_KIND:tanktypes
+          // file : formData
+
+      }).then((res) => {
+        console.log(res.data)
+        setFlag(  res.data.success.toString())
+        setViewModel(res.data)
+        // console.log(data)
+  
+      }).catch((err) => {
+          console.log(err)
+      }) 
+      const handelOpenpop = () => {
+        if(flag === 1){
+          setOpen(true)
+        }
+      }
+    }
   }
 
-    }
+
+
+
+
+     
     return (
       <div>
  
         <Sidebar></Sidebar>
         <div className="full_container" dir="rtl">
+          <ToastContainer/>
           <div className="inner_container">
           <Topbar />
             <div id="content">
@@ -250,6 +241,12 @@ function AddModel() {
                   marginLeft: "auto",
                 }}
               >
+                               <h1 style={{
+                                marginBottom :40,
+                                color : "#FF5723",
+                                fontWeight : "bold"
+                               }}>اضافة نموذج جديد </h1>
+
                 <div className="col">
                   <label htmlFor="customerName"> نوع النشاط</label>
                   <input
@@ -453,6 +450,7 @@ function AddModel() {
                         <div className="form-check">
                         <label
                           className="form-check-label pl-3"
+                          id="lup"
                           htmlFor="flexChec"
                         >
                           فوق الارض
@@ -471,6 +469,7 @@ function AddModel() {
                         <label
                           className="form-check-label pl-3"
                           htmlFor="flexCheckk"
+                          id="ldown"
                         >
                           تحت الارض
                         </label>

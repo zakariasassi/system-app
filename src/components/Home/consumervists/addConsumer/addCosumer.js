@@ -25,13 +25,13 @@ function AddCosumer() {
       if (res){
         if(res.data.success === 0 ){
           setallData([]);
-          console.log('error')
+          console.log('error');
   
         }else{
           setallData(res.data);
         }
       }else{
-        console.log("Bad gatawy")
+        console.log("Bad gatawy");
       }
  
     };
@@ -41,16 +41,24 @@ function AddCosumer() {
 
   const addNewCustomer = (e) => {
     e.preventDefault();
-    if (Cname === " " && Cphone === " " && Clocation === " ") {
-      const errorInput = () => toast("يرجي تعبئة جميع الحقول");
+    if (!Cname && !Cphone && !Clocation ) {
+      const errorInput = () => toast("يرجي ادخال جميع الحقول");
       errorInput();
-    } else if(Cname.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) ){
-      const errorInput = () => toast("يرجي تعبئة اسم الزبون بطريقة صحيحة");
+    }
+    //  else if(!Cname.match(/^[a-zA-Z]+[\u0621-\u064A\s0-9] +$/)  ){
+    //   const errorInput = () => toast("يرجي ادخال اسم الزبون بطريقة صحيحة");
+    //   errorInput();
+    // }
+    else if (Cphone <= 6 ){
+      const errorInput = () => toast("يرجي ادخال رقم الهاتف بطريقة صحيحة ");
       errorInput();
-    }else if (Cphone >= 6 ){
-      const errorInput = () => toast("يرجي تعبئة رقم الهاتف بريقة صحيحة ");
-      errorInput();
-    }else {
+    }
+    // else if 
+    // (!Clocation.match(/^[a-zA-Z]+$/ )) {
+    //   const errorInput = () => toast("يرجي ادخال موقع الزبون بطريقة صحيحة");
+    //   errorInput();
+    // }
+    else {
       axios
         .post( baseUrl  + "customer_insert.php", {
           name: Cname,
@@ -58,7 +66,14 @@ function AddCosumer() {
           address: Clocation,
         })
         .then((res) => {
-          console.log(res);
+            if(res){
+              if(res.data.success === 0) {
+                    const errorInput = () => toast(res.data.msg);
+                    errorInput();
+              }
+            }else{
+              console.log("no response")
+            }
         })
         .catch((e) => {
           console.log(e);
@@ -68,11 +83,12 @@ function AddCosumer() {
 
   return (
     <div>
-            <ToastContainer />
 
       <Sidebar></Sidebar>
 
       <div className="full_container" dir="rtl">
+      <ToastContainer />
+
         <div className="inner_container">
           <div id="content">
             <Topbar />

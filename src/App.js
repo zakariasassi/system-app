@@ -1,11 +1,9 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import {useContext} from 'react'
 import Login from "./components/loginScreen/Login";
 import NewConsumer from "./components/Home/consumervists/addConsumer/addCosumer"
 import AddModel from "./components/Home/consumervists/addModel/addModel";
 import AllModels from "./components/Home/consumervists/allmodels/Models";
-import { AuthContext, AuthProvider } from "./components/loginScreen/AuthContext";
 
 
 

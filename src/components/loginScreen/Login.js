@@ -13,6 +13,16 @@ function Login() {
 
   const userlogin = (e) => {
     e.preventDefault();
+
+
+    if(!username  && !password) {
+      const  errorhandler = () =>  toast = ("الرجاء تعبئة جميع الحقول")
+      errorhandler()
+    }else if(username.match((/^[a-zA-Z]+$/)) === false ) {
+      const  errorhandler = () =>  toast = ("الرجاء ادخال الاسم بطريقة صحيحة")
+      errorhandler()
+    }
+    
     axios
       .post( baseUrl +  "login.php", {
         username: username,
@@ -24,7 +34,7 @@ function Login() {
         console.log(password);
 
         console.log(response);
-        if (response.data.username === username) {
+        if (response.data.succss === username) {
           console.log(response.data.username);
           window.localStorage.setItem("isLogIn", true);
           window.localStorage.setItem("userID", response.data.id_user);
@@ -45,7 +55,6 @@ function Login() {
       style={{ backgroundColor: "#0C1D4F" }}
     >
       <div class="container">
-        {/* <img src={"https://www.sharara.com.ly/images/sharara-logo.png"} style={{height:200 , width:'auto' , display:'block' , margin:'auto' }} /> */}
 
         <div className="center verticle_center full_height">
           <div className="login_section">

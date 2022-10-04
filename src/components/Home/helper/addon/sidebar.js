@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import logo from '../../../../assets/logo.png'
 
 function sidebar() {
    const name = window.localStorage.getItem('username')
@@ -9,13 +10,13 @@ function sidebar() {
                <div className="sidebar_blog_1">
                   <div className="sidebar-header">
                      <div className="logo_section">
-                        <Link to="#"><img className="logo_icon img-responsive" src="images/logo/logo_icon.png" alt="#" /></Link>
+                        <Link to="#"><img className="logo_icon img-responsive" src={logo} alt="#" /></Link>
                      </div>
                   </div>
                   <div className="sidebar_user_info">
                      <div className="icon_setting"></div>
                      <div className="user_profle_side">
-                        <div className="user_img"><img className="img-responsive" src="images/layout_img/user_img.jpg" alt="#" /></div>
+                        <div className="user_img"><img className="img-responsive" src="/images/layout_img/user-image.png" alt="#" /></div>
                         <div className="user_info">
                            <h6>{name} </h6>
                            <p><span className="online_animation"></span> Online</p>
@@ -27,7 +28,7 @@ function sidebar() {
                   <h4>General</h4>
                   <ul className="list-unstyled components">
                      <li className="active">
-                        <Link to="#dashboard" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i className="fa fa-dashboard yellow_color"></i> <span>الإدارة الفنية</span></Link>
+                        <Link to="/allmodels" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i className="fa fa-dashboard yellow_color"></i> <span>الإدارة الفنية</span></Link>
                         <ul className=" list-unstyled" id="dashboard">
                            <li>
                            <Link to="/allmodels"> <span> النماذج </span></Link>

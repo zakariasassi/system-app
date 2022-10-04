@@ -7,7 +7,6 @@ function Topbar() {
     const navigate = useNavigate();
     const name = window.localStorage.getItem('username')
     const logOutUser = (e) => {
-          
             localStorage.removeItem('username')
             localStorage.removeItem('userID')
             localStorage.removeItem('isLogIn')
@@ -19,6 +18,7 @@ function Topbar() {
               <nav className="navbar navbar-expand-lg navbar-light">
                 <div className="full">
                   <button
+                  
                     type="button"
                     id="sidebarCollapse"
                     className="sidebar_toggle"
