@@ -17,10 +17,25 @@ function Models() {
 
 
   const [allmodels , setALlModels] = useState([]);
+  const [filtredModels , setFiltersModels] = useState([]) 
   const [curentpage , setCurentpage] = useState(1);
   const [ postPerPage , setPostPerPage] = useState(10)
-  
-  
+  // const [curentPost , setCurentPost] = useState([]);
+  const lastPostIndex = curentpage * postPerPage ; 
+  const firstPostIndex = lastPostIndex - postPerPage;
+  const [searchByname , setSeachByname] = useState("");
+  const [searchBynumber , setSeachBynumber] = useState("")
+  const [dateFrom , setDatefrom] = useState("");
+  const [dateTo , setDateto] = useState("") 
+
+
+  // var data = allmodels.slice(firstPostIndex , lastPostIndex)
+  // console.log(setCurentPost(data))
+
+    let curentPost = allmodels.slice(firstPostIndex , lastPostIndex)
+
+
+
   useEffect(() =>  {
     const getModelsData = async () => {
       const res = await axios.get(baseUrl + "cvm_view_all.php") 
@@ -36,40 +51,25 @@ function Models() {
   },[]);
 
 
-
-  // const curentpage = 1;
-  const lastPostIndex = curentpage * postPerPage ; 
-  const firstPostIndex = lastPostIndex - postPerPage;
-  
-  const curentPost = allmodels.slice(firstPostIndex , lastPostIndex)
-
-
-
-  const [searchByname , setSeachByname] = useState("");
-  const [searchBynumber , setSeachBynumber] = useState("")
-  const [dateFrom , setDatefrom] = useState("");
-  const [dateTo , setDateto] = useState("") 
-
-
-  const Searching = () => {
-    // let data =  curentPost.filter( item => item.name !== e.target.value)
-    // console.log( data.name)
-    // setALlModels(curentPost.filter( item => item !== e.target.value))
-
-    
-    const res = axios.get(baseUrl + "cvm_view_all_search.php" , {
+  const Searching = async  () => {
+    console.log(searchBynumber)
+    const resFilterd = await axios.post(baseUrl + "cvm_view_all_search.php" , {
       id_cvm : searchBynumber ,
       name : searchByname ,
-      datefrom : dateFrom ,
-      dateTo : dateTo,
+      date_from : dateFrom ,
+      date_to : dateTo,
     })
-    
-    if(res){
-      console.log(res);
-    }else{
-      alert("errro")
-    }
-  }
+    setALlModels(resFilterd.data)
+        if( allmodels.length > 0 ) {
+          curentPost = allmodels.slice(firstPostIndex , lastPostIndex) ;
+          console.log(curentPost)
+        }else{
+          curentPost = allmodels;
+        }
+   
+  } 
+
+
 
 
 
@@ -83,6 +83,10 @@ function Models() {
               <Topbar />
 
             <div dir="rtl" className="row" style={{padding:20}}>
+            <h1 style={{ textAlign: "center", marginTop: 30 , marginBottom:30, color:'#FF5723' }}>
+                    عرض النماذج
+
+              </h1>
                 <div className="col">
                 <label htmlFor="searchbyname" >بحث عن طريق الاسم</label>
                  <input id="searchbyname" className="form-control"  placeholder="بحث عن طريق الاسم" 
@@ -108,19 +112,23 @@ function Models() {
                    }}>
 
                     <div style={{ 
-                      width:'40%',
+                      width:'20%',
                       margin: 'auto'
                      }}>
 
                   <button 
-                  onClick={Searching()}
-                  className="btn-warning " style={{
+                  onClick={Searching}
+                  className="btn-warning " 
+                  style={{
                       border:'0px',
                       height:'40px',
-                      width: '100vh',
-                      margin: 'auto'
-                      
-                    }}  >بحث </button>
+                      width: '40vh',
+                      margin: 'auto',
+                      fontWeight:'bold',
+                      color:'white',
+                      background:'#FF5723' }}>
+                      بحث 
+                  </button>
 
                      </div>
 
@@ -161,14 +169,17 @@ function Models() {
 
                 </tr>
               </thead>
-              <tbody>
-                {curentPost.map( (index  , key) => {
+              <tbody> 
+
+                {
+                
+
+               
+                curentPost.map( (index  , key) => {
                   return (
                     <tr key={key}>
                     <td style={{ 
                     textAlign:'center',
-               
-
                   }}>{index.id_cvm}</td>
                     <td style={{ 
                     textAlign:'center',
@@ -207,6 +218,7 @@ function Models() {
                   )
                 } )}
 
+            
 
 
               </tbody>
@@ -223,3 +235,20 @@ function Models() {
 }
 
 export default Models;
+
+
+
+
+
+
+
+
+
+// filter((val) => {
+//   if(searchByname === "" && searchBynumber === "" && dateFrom === "" && dateTo === "") 
+//   {
+//     return val
+//   }else if (val.id_cvm.includes(searchBynumber) && val.name.toLowerCase().includes(searchByname.toLowerCase()) && val.date_visits.includes(dateTo) && val.date_visits.includes(dateFrom)){
+//     console.log("curentPost")
+//     return val
+//   }}).

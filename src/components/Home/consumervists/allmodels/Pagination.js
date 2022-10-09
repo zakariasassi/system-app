@@ -8,10 +8,7 @@ function Pagination({ totalposts, posterpage, setCurentpage }) {
   }
   return (
     <>
-      <nav aria-label="Page navigation " style={{ 
-        width:'50%',
-        margin: 'auto'
-       }} >
+      <nav aria-label="Page navigation" style={{ width:'50%', margin: 'auto' }} >
         <ul className="pagination">
           {pages.map((number , key) => {
             return(

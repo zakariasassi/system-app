@@ -7,34 +7,43 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Topbar from "../../helper/addon/topbar";
 import { baseUrl } from "../../../../constants/engine";
+import Pagination from "../allmodels/Pagination";
+import { Button } from "react-bootstrap";
 
 
 
 function AddCosumer() {
+  const [curentpage , setCurentpage] = useState(1);
+  const [ postPerPage , setPostPerPage] = useState(10)
   const [allData, setallData] = useState([]);
   const [Cname, setCname] = useState("");
   const [Cphone, setCphone] = useState("");
   const [Clocation, setClocation] = useState("");
   const [searching, setsearching] = useState("");
+  const lastPostIndex = curentpage * postPerPage ; 
+  const firstPostIndex = lastPostIndex - postPerPage;
+
+  let curentPost = allData.slice(firstPostIndex , lastPostIndex)
+
+
+   const fetchData = async () => {
+    const res = await axios.get(  baseUrl + "customer_all.php");
+    console.log(res)
+    if (res){
+      if(res.data.success === 0 ){
+        setallData([]);
+        console.log('error');
+
+      }else{
+        setallData(res.data);
+      }
+    }else{
+      console.log("Bad gettawy");
+    }
+
+  };
 
   useEffect(() => {
-
-    const fetchData = async () => {
-      const res = await axios.get(  baseUrl + "customer_all.php");
-      console.log(res)
-      if (res){
-        if(res.data.success === 0 ){
-          setallData([]);
-          console.log('error');
-  
-        }else{
-          setallData(res.data);
-        }
-      }else{
-        console.log("Bad gatawy");
-      }
- 
-    };
     fetchData();
   }, []);
 
@@ -79,8 +88,48 @@ function AddCosumer() {
           console.log(e);
         });
     }
+
+
+  
   };
 
+  const [searchBynumber  , setsearchBynumber]  = useState("");  
+  const [searchByname , setsearchByname] = useState("");
+
+
+  const [isActive , setisActive]  = useState(true);
+
+  const Searching = async  () => {
+    const resFilterd = await axios.post(baseUrl + "cvm_view_all_search.php" , {
+      phone : searchBynumber ,
+      name : searchByname ,
+     
+    })
+    setallData(resFilterd.data)
+        if( allData.length > 0 ) {
+          curentPost = allData.slice(firstPostIndex , lastPostIndex) ;
+          console.log(curentPost)
+        }else{
+          curentPost = allData;
+        }
+   
+  } 
+
+  const Activison = async ( id,e) => {
+    
+    const res = await axios.post(baseUrl + "customer_change_active.php" , {
+      id_customer : id,
+      active : e,
+    })
+
+    fetchData()
+
+    console.log(res.data )
+    console.log(e , id)
+  }
+
+
+  
   return (
     <div>
 
@@ -101,9 +150,7 @@ function AddCosumer() {
                 margin: "auto",
               }}
             >
-              <h1 style={{ textAlign: "center", marginTop: 30 }}>
-                اضافة زبون الي المنظومة
-              </h1>
+              <h1 style={{ textAlign: "center", marginTop: 30 , color:'#FF5723' }}> اضافة زبون الي المنظومة</h1>
               <form
                 className="row"
                 style={{
@@ -151,8 +198,9 @@ function AddCosumer() {
                   />
                 </div>
                 <button
-                  style={{ marginTop: 30 }}
+                  style={{ marginTop: 30 , color:'white' , border:'0px' , width:100, backgroundColor:'#FF5723' }}
                   className="btn btn-danger"
+                  
                   onClick={addNewCustomer}
                 >
                   اضافة زبون
@@ -165,32 +213,18 @@ function AddCosumer() {
                   padding:20
                 }}>
                  <div className="col">
-                <label htmlFor="searchbyname" >بحث عن طريق الاسم</label>
-                 <input id="searchbyname" className="input-group"  placeholder="بحث عن طريق الاسم"/>
+                 <input id="searchbyname" className="form-control"  placeholder="بحث عن طريق الاسم"/>
                  </div>
                  <div className="col">
-                 <label htmlFor="from" > من  </label>
-                 <input id="from" type="date" className="input-group" />
+                 <button onClick={Searching} className="btn-primary "style={{border:'0px',height:'40px',width : '90px'}}>
+                    بحث 
+                  </button>
+
                  </div>
-                 <div className="col">
-                 
-                 <label htmlFor="to" > إلي  </label>
-                 <input id="to" type="date" className="input-group" />
-                 </div>
+           
 
                 </div>
 
-                <div className="row" style={{
-                      width:500,
-                      textAlign:'center !important'
-                }}>
-                    <button className="btn-primary " style={{
-                      border:'0px',
-                    
-                      height:'26px',
-                      
-                    }}  >بحث </button>
-                 </div>
             <table className="table">
               <thead>
                 <tr>
@@ -204,41 +238,56 @@ function AddCosumer() {
                 </tr>
               </thead>
               <tbody>
-                {allData.map((data) => {
+                {curentPost.map((data) => {
                     return (
                       <tr key={data.id_customer}>
                         <th scope="row">{data.id_customer}</th>
                         <td>{data.name}</td>
                         <td>{data.phone} </td>
                         <td>
-                          {data.active ? (
-                            <span className="badge text-bg-info">معتمد </span>
+                          {data.active === "1" ? (
+                            <span className="badge text-bg-info">فعال </span>
                           ) : (
-                            <span className="badge text-bg-danger"> غير معتمد</span>
+                            <span className="badge text-bg-danger"> غير فعال </span>
                           )}
                         </td>
                         <td>{data.address}</td>
                         <td>
                           <button type="button" className="btn btn-warning">
-                            عرض الزيارات{" "}
+                            عرض الزيارات
                           </button>
                         </td>
                         <td>
-                          {data.active ? (
-                            <button type="button" className="btn btn-danger">
-                              الغاء تفعيل
-                            </button>
-                          ) : (
-                            <button type="button" className="btn btn-info">
-                              تفعيل
-                            </button>
-                          )}
+                          {
+                          
+                          data.active === "1" 
+                          ?
+                          (
+                            // <label className="switch">
+                            //   <input type="checkbox" checked value={"1"}   onChange={ e => Activison( data.id_customer, "1" )}/>
+                            //   <span className="slider round"></span>
+                            // </label>
+                              <button  onClick={ e => Activison( data.id_customer , 0 )} >الغاء تفعيل</button>
+                             )
+                             :  
+                             (
+                          //   <label className="switch">
+                          //   <input type="checkbox" value={"0"}   onChange={ e => Activison(data.id_customer, "0" )}/>
+                          //   <span className="slider round"></span>
+                          // </label>
+                          <button  onClick={ e => Activison( data.id_customer ,  1 )}> تفعيل</button>
+
+                             )
+                          
+                          }
                         </td>
                       </tr>
                     );
                   })}
               </tbody>
             </table>
+            <Pagination totalposts={setallData.length} posterpage={postPerPage} setCurentpage={setCurentpage}  />
+
           </div>
         </div>
       </div>

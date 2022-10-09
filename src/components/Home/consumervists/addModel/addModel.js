@@ -16,7 +16,7 @@ var tanktypes = [];
 
 function AddModel() {
 
-
+  
   const [open , setOpen] = useState(false)
 
 
@@ -49,12 +49,17 @@ function AddModel() {
 
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
+
+
   const changeHandler = (event) => {
-		setSelectedFile(event.target.files[0]);
+		// setSelectedFile(event.target.files[0]);
 		setIsFilePicked(true);
+    setSelectedFile(URL.createObjectURL(event.target.files[0]));
+
+    
+
 	};
-  const handleSubmission = () => {
-	};
+
 
   const [tanksize , setTanksize] = useState([]);
   const [countcy , setCountcy] = useState("");
@@ -149,12 +154,17 @@ function AddModel() {
       e.preventDefault();
 
       //input validation 
+
+
       const userid =  window.localStorage.getItem('userID') ;
 
-      if(!customername && !id_coustom  &&  !datevist  && !generator  ){
+      if(!datevist && !id_coustom  && !delvname && !activitybe && !phone && !city && !position && !generator && !tanksize && !up && !down 
+        && !countcy && !space && !userid ){
             const errorInput = () => toast("يرجي ادخال كل البيانات صحيحة ");
             errorInput();
 
+      }else if ( !notes){
+        notes = "لايوجد"
       }else if ((up === " " && down === " ")){
         const errorInput = () => toast("يرجي  اختيار موقع الخزان ");
         document.getElementById('lup').style.color = "red"
@@ -170,35 +180,52 @@ function AddModel() {
         else{
 
         const formData = new FormData();
-        formData.append('File', selectedFile);
+        formData.append('DATE_VISITS', datevist);
+        formData.append('ID_CUSTOMER', id_coustom);
+        formData.append('DELEGATE_NAME', delvname);
+        formData.append('ACTIVITY_TYPE', activitybe);
+        formData.append('PHONE', phone);
+        formData.append('ADDRESS', city);
+        formData.append('COORDINATES_LOCATION', position);
+        formData.append('GENERATOR_POWER', generator);
+        formData.append('TANK_CAPACITY', tanksize);
+        formData.append('TANK_LOCATION', up + down);
+        formData.append('COUNT_EXTINGUISHING_CYLINDERS', countcy);
+        formData.append('DISTANCE_ALTERNATOR_TANK', space);
+        formData.append('NOTE', notes);
+        formData.append('ID_USER', userid);
+        formData.append('USAGE_STATES', gasusagearray);
+        formData.append('FUEL_KINDS', gastypes);
+        formData.append('TANK_KINDS', tanktypes);
+        formData.append('CVM_FILE', selectedFile);
+
+
+        // DATE_VISITS: datevist, 
+        // ID_CUSTOMER: id_coustom , 
+        // DELEGATE_NAME: delvname , 
+        // ACTIVITY_TYPE:activitybe ,
+        // PHONE:phone,
+        // ADDRESS: city ,
+        // COORDINATES_LOCATION: position , 
+        // GENERATOR_POWER :generator, 
+        // TANK_CAPACITY:tanksize , 
+        // TANK_LOCATION: up + down, 
+        // COUNT_EXTINGUISHING_CYLINDERS: countcy , 
+        // DISTANCE_ALTERNATOR_TANK:space , 
+        // NOTE:notes , 
+        // ID_USER:userid,
+        // USAGE_STATES:gasusagearray,
+        // FUEL_KINDS:gastypes,
+        // TANK_KINDS:tanktypes,
+        // CVM_FILE : selectedFile
+        console.log(formData)
 
         console.log(selectedFile)
         let obj = alldata.find(data => data.name === customername);
         console.log(obj)
         console.log(up)
         console.log(down)
-        axios.post( baseUrl + 'cvm_insert.php' , {
-
-          DATE_VISITS: datevist, 
-          ID_CUSTOMER: id_coustom , 
-          DELEGATE_NAME: delvname , 
-          ACTIVITY_TYPE:activitybe ,
-          PHONE:phone,
-          ADDRESS: city ,
-          COORDINATES_LOCATION: position , 
-          GENERATOR_POWER :generator, 
-          TANK_CAPACITY:tanksize , 
-          TANK_LOCATION: up + down, 
-          COUNT_EXTINGUISHING_CYLINDERS: countcy , 
-          DISTANCE_ALTERNATOR_TANK:space , 
-          NOTE:notes , 
-          ID_USER:userid,
-          USAGE_STATE:gasusagearray,
-          FUEL_KIND:gastypes,
-          TANK_KIND:tanktypes
-          // file : formData
-
-      }).then((res) => {
+        axios.post( baseUrl + 'cvm_insert.php' , {formData}).then((res) => {
         console.log(res.data)
         setFlag(  res.data.success.toString())
         setViewModel(res.data)
@@ -303,7 +330,7 @@ function AddModel() {
 
                   <label htmlFor="customerName"> قوة المولد</label>
                   <input
-                    type="text"
+                    type="number"
                     id="customerName"
                     onChange={(e) => setGeneretor(e.target.value)}
                     required
@@ -517,10 +544,9 @@ function AddModel() {
                     <p>Filename: {selectedFile.name}</p>
                     <p>Filetype: {selectedFile.type}</p>
                     <p>Size in bytes: {selectedFile.size}</p>
-                    <p>
-                      lastModifiedDate:{' '}
-                      {selectedFile.lastModifiedDate.toLocaleDateString()}
-                    </p>
+             
+                    <img src={selectedFile} ></img>
+
                   </div>
 			) : (
 				<p>Select a file to show details</p>

@@ -25,19 +25,18 @@ function sidebar() {
                   </div>
                </div>
                <div className="sidebar_blog_2">
-                  <h4>General</h4>
                   <ul className="list-unstyled components">
                      <li className="active">
-                        <Link to="/allmodels" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i className="fa fa-dashboard yellow_color"></i> <span>الإدارة الفنية</span></Link>
+                        <Link to="/allmodels" data-toggle="collapse" aria-expanded="false" ><i className="fa fa-dashboard yellow_color"></i> <span  style={{fontSize:18 , color:'#FF9801' , fontWeight:'bold'}}>الإدارة الفنية</span></Link>
                         <ul className=" list-unstyled" id="dashboard">
                            <li>
-                           <Link to="/allmodels"> <span> النماذج </span></Link>
+                           <Link to="/allmodels"> <span style={{fontSize:18 , fontWeight:'bold'}} > النماذج </span></Link>
                            </li>
                            <li>
-                               <Link to="/addconumer"><span>اضافة زبون</span></Link>
+                               <Link to="/addconumer"><span  style={{fontSize:18 , fontWeight:'bold'}}>اضافة زبون</span></Link>
                            </li>
                            <li>
-                               <Link to="/addmodel"><span>اضافة نموذج</span></Link>
+                               <Link to="/addmodel"><span  style={{fontSize:18 , fontWeight:'bold'}}>اضافة نموذج</span></Link>
                            </li>
                         </ul>
                      </li>
