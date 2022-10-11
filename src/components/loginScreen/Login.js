@@ -12,32 +12,30 @@ import { baseUrl } from "../../constants/engine.js";
 
 
 function Login() {
+
+
+
+
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+
+
   const userlogin = (e) => {
-    
     e.preventDefault();
-    if(!username  && !password) {
-      const  errorhandler = () =>  toast = ("الرجاء تعبئة جميع الحقول")
+    if(!username  && username === "" && !password && password ==="" ) {
+      const  errorhandler = () =>  toast("الرجاء تعبئة جميع الحقول")
       errorhandler()
     }else if(username.match((/^[a-zA-Z]+$/)) === false ) {
-      const  errorhandler = () =>  toast = ("الرجاء ادخال الاسم بطريقة صحيحة")
+      const  errorhandler = () =>  toast ("الرجاء ادخال الاسم بطريقة صحيحة")
       errorhandler()
     }
-    axios
-      .post( baseUrl +  "login.php", {
+    axios.post( baseUrl +  "login.php", {
         username: username,
         password: password,
-      },
-)
-      .then((response) => {
-        console.log(username);
-        console.log(password);
-
-        console.log(response);
-        if (response.data.succss === username) {
-          console.log(response.data.username);
+      }).then((response) => {
+        if (response.data.username === username) {
           window.localStorage.setItem("isLogIn", true);
           window.localStorage.setItem("userID", response.data.id_user);
           window.localStorage.setItem("username", response.data.username);
@@ -46,8 +44,7 @@ function Login() {
           const notify = () => toast(response.data.msg);
           notify();
         }
-      })
-      .catch((e) => console.log(e));
+      }).catch((e) => console.log(e));
   };
 
   return (
@@ -97,7 +94,7 @@ function Login() {
 
                   <div className="field margin_0">
                     <button
-                      onClick={userlogin}
+                      onClick={e=>userlogin(e)}
                       className="main_bt"
                       style={{ float: "right" }}
                     >

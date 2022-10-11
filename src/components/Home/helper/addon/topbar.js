@@ -4,13 +4,14 @@ import { useNavigate  , Redirect} from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 function Topbar() {
-    const navigate = useNavigate();
+    const Navigate = useNavigate();
     const name = window.localStorage.getItem('username')
     const logOutUser = (e) => {
+            e.preventDefault();
             localStorage.removeItem('username')
             localStorage.removeItem('userID')
             localStorage.removeItem('isLogIn')
-            navigate('/login')    
+            Navigate("/login")    
     }
   return (
     <div>

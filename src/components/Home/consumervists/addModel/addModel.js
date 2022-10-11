@@ -51,20 +51,10 @@ function AddModel() {
 	const [isFilePicked, setIsFilePicked] = useState(false);
 
 
-  const changeHandler = (event) => {
-		// setSelectedFile(event.target.files[0]);
-		setIsFilePicked(true);
-    setSelectedFile(URL.createObjectURL(event.target.files[0]));
-
-    
-
-	};
-
-
   const [tanksize , setTanksize] = useState([]);
   const [countcy , setCountcy] = useState("");
   const [space , setSpace] = useState("");
-  const [viewMode , setViewModel] = useState([])
+  const [viewModel , setViewModel] = useState({})
 
 
   const [allfueldat , setAllfueldata] = useState([]);
@@ -150,12 +140,14 @@ function AddModel() {
     }
 
 
+    const changeHandler = (event) => {
+      setSelectedFile(event.target.files[0]);
+      setIsFilePicked(true);
+    };
+
     function addnewModel  (e) {
       e.preventDefault();
-
       //input validation 
-
-
       const userid =  window.localStorage.getItem('userID') ;
 
       if(!datevist && !id_coustom  && !delvname && !activitybe && !phone && !city && !position && !generator && !tanksize && !up && !down 
@@ -164,89 +156,106 @@ function AddModel() {
             errorInput();
 
       }else if ( !notes){
-        notes = "لايوجد"
+        setNotes("لايوجد")
       }else if ((up === " " && down === " ")){
         const errorInput = () => toast("يرجي  اختيار موقع الخزان ");
         document.getElementById('lup').style.color = "red"
 
         errorInput();
-      }else if ( (gasusagearray.length === 0 )   && (tanktypes.length === 0) ){
-        const errorInput = () => toast(" يرجي ادخال بيانات  الحالة");
-        errorInput();
-      }else if ( gastypes.length === 0  ) {
-        const errorInput = () => toast(" يرجي ادخال بيانات  الحالة");
-        errorInput();
-      }
-        else{
+      // }else if ( (gasusagearray.length === 0 )   && (tanktypes.length === 0) ){
+      //   const errorInput = () => toast(" يرجي ادخال بيانات  الحالة");
+      //   errorInput();
+      // }else if ( gastypes.length === 0  ) {
+      //   const errorInput = () => toast(" يرجي ادخال بيانات  الحالة");
+      //   errorInput();
+      // }
+       } else{
 
-        const formData = new FormData();
-        formData.append('DATE_VISITS', datevist);
-        formData.append('ID_CUSTOMER', id_coustom);
-        formData.append('DELEGATE_NAME', delvname);
-        formData.append('ACTIVITY_TYPE', activitybe);
-        formData.append('PHONE', phone);
-        formData.append('ADDRESS', city);
-        formData.append('COORDINATES_LOCATION', position);
-        formData.append('GENERATOR_POWER', generator);
-        formData.append('TANK_CAPACITY', tanksize);
-        formData.append('TANK_LOCATION', up + down);
-        formData.append('COUNT_EXTINGUISHING_CYLINDERS', countcy);
-        formData.append('DISTANCE_ALTERNATOR_TANK', space);
-        formData.append('NOTE', notes);
-        formData.append('ID_USER', userid);
-        formData.append('USAGE_STATES', gasusagearray);
-        formData.append('FUEL_KINDS', gastypes);
-        formData.append('TANK_KINDS', tanktypes);
-        formData.append('CVM_FILE', selectedFile);
+        var data = new FormData();
+        data.append('DATE_VISITS', datevist);
+        data.append('ID_CUSTOMER', id_coustom);
+        data.append('DELEGATE_NAME', delvname);
+        data.append('ACTIVITY_TYPE', activitybe);
+        data.append('PHONE', phone);
+        data.append('ADDRESS', city);
+        data.append('COORDINATES_LOCATION', position);
+        data.append('GENERATOR_POWER', generator);
+        data.append('TANK_CAPACITY', tanksize);
+        data.append('TANK_LOCATION', up + down);
+        data.append('COUNT_EXTINGUISHING_CYLINDERS', countcy);
+        data.append('DISTANCE_ALTERNATOR_TANK', space);
+        data.append('NOTE', notes);
+        data.append('ID_USER', userid);
+        data.append('USAGE_STATES', gasusagearray);
+        data.append('FUEL_KINDS', gastypes);
+        data.append('TANK_KINDS', tanktypes);
+        data.append('CVM_FILE', selectedFile);
 
 
-        // DATE_VISITS: datevist, 
-        // ID_CUSTOMER: id_coustom , 
-        // DELEGATE_NAME: delvname , 
-        // ACTIVITY_TYPE:activitybe ,
-        // PHONE:phone,
-        // ADDRESS: city ,
-        // COORDINATES_LOCATION: position , 
-        // GENERATOR_POWER :generator, 
-        // TANK_CAPACITY:tanksize , 
-        // TANK_LOCATION: up + down, 
-        // COUNT_EXTINGUISHING_CYLINDERS: countcy , 
-        // DISTANCE_ALTERNATOR_TANK:space , 
-        // NOTE:notes , 
-        // ID_USER:userid,
-        // USAGE_STATES:gasusagearray,
-        // FUEL_KINDS:gastypes,
-        // TANK_KINDS:tanktypes,
+        
+
+        var mydata = {
+          DATE_VISITS: datevist, 
+          ID_CUSTOMER: id_coustom , 
+          DELEGATE_NAME: delvname , 
+          ACTIVITY_TYPE:activitybe ,
+          PHONE:phone,
+          ADDRESS: city ,
+          COORDINATES_LOCATION: position , 
+          GENERATOR_POWER :generator, 
+          TANK_CAPACITY:tanksize , 
+          TANK_LOCATION: up + " " + down, 
+          COUNT_EXTINGUISHING_CYLINDERS: countcy , 
+          DISTANCE_ALTERNATOR_TANK:space , 
+          NOTE:notes , 
+          ID_USER:userid,
+          USAGE_STATES:gasusagearray,
+          FUEL_KINDS:gastypes,
+          TANK_KINDS:tanktypes
+        }
+
+        // baseUrl + 'cvm_insert.php' , { ...data }
+
+        // console.log([...data])
+        // console.log(selectedFile)
+        // let obj = alldata.find(data => data.name === customername);
+        // console.log(obj)
+        // console.log(up)
+        // console.log(down)
+
+
+        axios.post( baseUrl + "cvm_insert.php " , {
+        DATE_VISITS: datevist, 
+        ID_CUSTOMER: id_coustom , 
+        DELEGATE_NAME: delvname , 
+        ACTIVITY_TYPE:activitybe ,
+        PHONE:phone,
+        ADDRESS: city ,
+        COORDINATES_LOCATION: position , 
+        GENERATOR_POWER :generator, 
+        TANK_CAPACITY:tanksize , 
+        TANK_LOCATION: up + down, 
+        COUNT_EXTINGUISHING_CYLINDERS: countcy , 
+        DISTANCE_ALTERNATOR_TANK:space , 
+        NOTE:notes , 
+        ID_USER:userid,
+        USAGE_STATES:gasusagearray,
+        FUEL_KINDS:gastypes,
+        TANK_KINDS:tanktypes,
         // CVM_FILE : selectedFile
-        console.log(formData)
-
-        console.log(selectedFile)
-        let obj = alldata.find(data => data.name === customername);
-        console.log(obj)
-        console.log(up)
-        console.log(down)
-        axios.post( baseUrl + 'cvm_insert.php' , {formData}).then((res) => {
+     
+        } ).then((res) => {
         console.log(res.data)
-        setFlag(  res.data.success.toString())
-        setViewModel(res.data)
+        // setViewModel(res.data)
         // console.log(data)
   
       }).catch((err) => {
           console.log(err)
       }) 
-      const handelOpenpop = () => {
-        if(flag === 1){
-          setOpen(true)
-        }
-      }
+      setOpen(true)
+      setViewModel(mydata)
     }
-  }
-
-
-
-
-
-     
+  }     
     return (
       <div>
  
@@ -256,7 +265,7 @@ function AddModel() {
           <div className="inner_container">
           <Topbar />
             <div id="content">
-            <ModelContext.Provider value={{open , setOpen}} >
+            <ModelContext.Provider value={{ setOpen , viewModel} } >
               {open && <Showmodel/>}
               </ModelContext.Provider>
               <form
@@ -538,19 +547,8 @@ function AddModel() {
                   </div>
 
                   <div className="row" style={{marginTop:20}}>
-                    <input type="file" className="input-group"  name="file" onChange={changeHandler} />
-                              {isFilePicked ? (
-                  <div>
-                    <p>Filename: {selectedFile.name}</p>
-                    <p>Filetype: {selectedFile.type}</p>
-                    <p>Size in bytes: {selectedFile.size}</p>
-             
-                    <img src={selectedFile} ></img>
-
-                  </div>
-			) : (
-				<p>Select a file to show details</p>
-			)}
+                    <input type="file" className="input-group"  name="file" onChange={e => changeHandler(e)} />
+         
 			<div></div>
                   </div>
                 <button

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useContext } from "react";
 import Sidebar from "../../helper/addon/sidebar";
 // import { users } from "../../../../tests/users";
 // import logo from "../../../../assets/logo.png";
@@ -9,11 +9,15 @@ import Topbar from "../../helper/addon/topbar";
 import { baseUrl } from "../../../../constants/engine";
 import Pagination from "../allmodels/Pagination";
 import { Button } from "react-bootstrap";
+import { ConsumerContext } from "./consumerContext";
+import { useNavigate } from "react-router-dom";
 
 
 
 function AddCosumer() {
-  const [curentpage , setCurentpage] = useState(1);
+
+  const Navigate = useNavigate();
+    const [curentpage , setCurentpage] = useState(1);
   const [ postPerPage , setPostPerPage] = useState(10)
   const [allData, setallData] = useState([]);
   const [Cname, setCname] = useState("");
@@ -22,7 +26,7 @@ function AddCosumer() {
   const [searching, setsearching] = useState("");
   const lastPostIndex = curentpage * postPerPage ; 
   const firstPostIndex = lastPostIndex - postPerPage;
-
+  
   let curentPost = allData.slice(firstPostIndex , lastPostIndex)
 
 
@@ -46,6 +50,16 @@ function AddCosumer() {
   useEffect(() => {
     fetchData();
   }, []);
+
+
+
+  const showCustomerModels = ( e,name) =>  { 
+    e.preventDefault();
+    Navigate('/scm',{state:{name: name}});
+
+  }
+
+
 
 
   const addNewCustomer = (e) => {
@@ -115,17 +129,17 @@ function AddCosumer() {
    
   } 
 
-  const Activison = async ( id,e) => {
-    
+  const Activison = async (event ,  id,active) => {
+    event.preventDefault();
     const res = await axios.post(baseUrl + "customer_change_active.php" , {
-      id_customer : id,
-      active : e,
+      id_customer : id ,
+      active : active ,
     })
 
     fetchData()
 
     console.log(res.data )
-    console.log(e , id)
+ 
   }
 
 
@@ -253,9 +267,11 @@ function AddCosumer() {
                         </td>
                         <td>{data.address}</td>
                         <td>
-                          <button type="button" className="btn btn-warning">
+                          <button type="button" onClick={ (e) => showCustomerModels( e , data.name)} className="btn btn-warning">
                             عرض الزيارات
                           </button>
+                         {/* <ConsumerContext.Provider value={data.id_customer}  /> */}
+
                         </td>
                         <td>
                           {
@@ -267,7 +283,7 @@ function AddCosumer() {
                             //   <input type="checkbox" checked value={"1"}   onChange={ e => Activison( data.id_customer, "1" )}/>
                             //   <span className="slider round"></span>
                             // </label>
-                              <button  onClick={ e => Activison( data.id_customer , 0 )} >الغاء تفعيل</button>
+                              <button  onClick={ e => Activison(e , data.id_customer , "0" )} >الغاء تفعيل</button>
                              )
                              :  
                              (
@@ -275,7 +291,7 @@ function AddCosumer() {
                           //   <input type="checkbox" value={"0"}   onChange={ e => Activison(data.id_customer, "0" )}/>
                           //   <span className="slider round"></span>
                           // </label>
-                          <button  onClick={ e => Activison( data.id_customer ,  1 )}> تفعيل</button>
+                          <button  onClick={ e => Activison(e ,  data.id_customer ,  "1" )}> تفعيل</button>
 
                              )
                           
