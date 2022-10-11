@@ -5,6 +5,7 @@ import Moment from "moment"
 import Pagination from "./Pagination"
 import { Button } from "react-bootstrap";
 import Topbar from "../../helper/addon/topbar";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../../../../constants/engine";
 
@@ -14,7 +15,7 @@ import { baseUrl } from "../../../../constants/engine";
 
 function Models() {
 
-
+  const Navigate = useNavigate();
 
   const [allmodels , setALlModels] = useState([]);
   const [filtredModels , setFiltersModels] = useState([]) 
@@ -34,9 +35,9 @@ function Models() {
 
     let curentPost = allmodels.slice(firstPostIndex , lastPostIndex)
 
+    const check =   window.localStorage.getItem('isLogIn')
 
 
-  useEffect(() =>  {
     const getModelsData = async () => {
       const res = await axios.get(baseUrl + "cvm_view_all.php") 
       console.log(res)
@@ -47,8 +48,20 @@ function Models() {
         console.log("no data is avilabel")
       }
     }
-    getModelsData();
+  useEffect(() =>  {
+
+    if (check){
+      getModelsData();
+    }else{
+      Navigate("/login")
+    }
+
   },[]);
+
+  const ViewSpecifcModel = ( e , id) => {
+    e.preventDefault();
+    Navigate("/viewspmodel" , {state:{id:id}})
+  }
 
 
   const Searching = async  () => {
@@ -69,10 +82,17 @@ function Models() {
    
   } 
 
+     
+
+  const HandelDelete = (e ,id) => {
+   e.preventDefault();
+     let iduser = window.localStorage.getItem('userID') 
+      axios.get(baseUrl  + "cvm_delete.php", {id_cvm:id , id_user :iduser }).then((res) =>  console.log(res)).catch( e => console.log(e))
+      getModelsData()
+    }
 
 
-
-
+        
 
   return (
     <div >
@@ -186,27 +206,25 @@ function Models() {
                
 
                   }}> {index.name}</td>
-               
                     <td style={{ 
                     textAlign:'center',
-               
-
                   }}>{index.date_visits}</td>
                     <td style={{ 
-                    textAlign:'center',
-               
-
-                  }}>{index.date_create}</td>
+                    textAlign:'center',}}>{index.date_create}</td>
                     <td>
                       <Button style={{ 
                         margin:10,
                         textAlign:'center'
                        }} >تعديل</Button>
-                      <Button style={{ 
+                      <Button 
+                        onClick={ e => HandelDelete( e , index.id_cvm)}
+                      style={{ 
                         margin:10,
                         textAlign:'center'
                        }} >حذف</Button>
-                                   <Button style={{ 
+                        <Button
+                        onClick={ e => ViewSpecifcModel (e , index.id_cvm)}
+                        style={{ 
                         margin:10,
                         textAlign:'center'
                        }} >عرض</Button>
