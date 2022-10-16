@@ -39,6 +39,7 @@ function Login() {
           window.localStorage.setItem("isLogIn", true);
           window.localStorage.setItem("userID", response.data.id_user);
           window.localStorage.setItem("username", response.data.username);
+          window.localStorage.setItem("token" , response.data.token);
           navigate("/allmodels");
         } else {
           const notify = () => toast(response.data.msg);
@@ -49,7 +50,7 @@ function Login() {
 
   return (
     <div
-      className="full_container"
+      className="full_container bgbgb"
       dir="rtl"
       style={{ backgroundColor: "#0C1D4F" }}
     >

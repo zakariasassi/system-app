@@ -1,5 +1,8 @@
-import React , {useContext , useState }from 'react'
+import {useState }from 'react'
 import { useEffect } from 'react'
+import Topbar from  '../../helper/addon/topbar'
+import Sidebar from  '../../helper/addon/sidebar'
+
 import axios from 'axios'
 import {useLocation, useMatch , useNavigate} from 'react-router-dom'
 import { baseUrl } from '../../../../constants/engine';
@@ -43,8 +46,51 @@ function AllconsumerModels(props) {
         e.preventDefault(); 
         navigate('/addconumer')
     }
-  return (
-    <table className="table" dir="rtl">
+
+
+    const HandelDelete = async(e ,id) => {
+      // prevent button form auto submitting
+     e.preventDefault();
+  
+  
+      //This Line of code get user id from local storage .
+    
+       let iduser = window.localStorage.getItem('userID') 
+  
+      //post request withe axios package from npm 
+       await axios.post(baseUrl  + "cvm_delete.php", 
+  
+        {
+          id_cvm:id , id_user :iduser 
+  
+        }).then((res) => { 
+  
+          console.log(res)}).catch( e => {
+  
+            console.log(e)
+  
+          })
+  
+          Searching()
+  
+      }
+  
+  // --------------------------------------------------------------------
+       
+  if(allmodels.length > 0) {
+    return (
+      <>
+      <div>
+      <Sidebar></Sidebar>
+
+      <div className="full_container">
+        <div className="inner_container">
+          <div id="content">
+      <Topbar />
+      </div>
+    <table  style={{
+      marginTop:100
+    }} className="table" dir="rtl">
     <thead>
       <tr>
         <th scope="col" style={{ 
@@ -78,9 +124,9 @@ function AllconsumerModels(props) {
     <tbody> 
 
       {
-      
 
-     
+          
+      
       allmodels.map( (index  , key) => {
         return (
           <tr key={key}>
@@ -108,11 +154,13 @@ function AllconsumerModels(props) {
               margin:10,
               textAlign:'center'
              }} >تعديل</Button>
-            <Button style={{ 
+            <Button 
+            onChange={ e => HandelDelete(e , index.id_cvm)}
+            style={{ 
               margin:10,
               textAlign:'center'
              }} >حذف</Button>
-                         <Button style={{ 
+             <Button style={{ 
               margin:10,
               textAlign:'center'
              }} >عرض</Button>
@@ -122,7 +170,10 @@ function AllconsumerModels(props) {
 
         </tr>
         )
-      } )}
+      } 
+      
+      
+      )}
 
   
 
@@ -133,10 +184,125 @@ function AllconsumerModels(props) {
         رجوع
     </Button>
   </table>
+     
+      </div>
+      </div>
+      </div>
+</>
+
+    )
+  }else {
+    return (
+      <>
+      <div>
+      <Sidebar></Sidebar>
+
+      <div className="full_container">
+        <div className="inner_container">
+          <div id="content">
+      <Topbar />
+      </div>
+    <table  style={{
+      marginTop:100
+    }} className="table" dir="rtl">
+    <thead>
+      <tr>
+        <th scope="col" style={{ 
+          textAlign:'center',
+          fontWeight:'bold'
+
+        }}> رقم النموذج</th>
+        <th scope="col" style={{ 
+          textAlign:'center',
+          fontWeight:'bold'
+
+        }}>اسم الزبون</th>
+        <th scope="col"style={{ 
+          textAlign:'center',
+          fontWeight:'bold'
+
+        }}>تاريخ الزيارة</th>
+        <th scope="col" style={{ 
+          textAlign:'center',
+          fontWeight:'bold'
+
+        }}>تاريخ الاضافة </th>
+        <th scope="col" style={{ 
+          textAlign:'center',
+          fontWeight:'bold'
+
+        }} >اجراء </th>
+
+      </tr>
+    </thead>
+    <tbody> 
+
+      {
+
+          
+ 
+          <tr >
+          <td style={{ 
+          textAlign:'center',
+        }}> no </td>
+          <td style={{ 
+          textAlign:'center',
+     
+
+        }}> no</td>
+     
+          <td style={{ 
+          textAlign:'center',
+     
+
+        }}> no</td>
+          <td style={{ 
+          textAlign:'center',
+     
+
+        }}> no </td>
+          <td>
+            <Button style={{ 
+              margin:10,
+              textAlign:'center'
+             }} >تعديل</Button>
+            <Button 
+            style={{ 
+              margin:10,
+              textAlign:'center'
+             }} >حذف</Button>
+             <Button style={{ 
+              margin:10,
+              textAlign:'center'
+             }} >عرض</Button>
 
 
+          </td>
 
-  )
+        </tr>
+        
+      } 
+      
+      
+      
+
+  
+
+
+    </tbody>
+
+    <Button  onClick={ e =>  back(e)}>
+        رجوع
+    </Button>
+  </table>
+     
+      </div>
+      </div>
+      </div>
+</>
+
+    )
+  }
 }
 
 export default AllconsumerModels

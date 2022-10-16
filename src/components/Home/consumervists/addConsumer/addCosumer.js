@@ -12,7 +12,8 @@ import { Button } from "react-bootstrap";
 import { ConsumerContext } from "./consumerContext";
 import { useNavigate } from "react-router-dom";
 
-
+const iduser = window.localStorage.getItem('userID')
+const token = window.localStorage.getItem('token')
 
 function AddCosumer() {
 
@@ -27,11 +28,16 @@ function AddCosumer() {
   const lastPostIndex = curentpage * postPerPage ; 
   const firstPostIndex = lastPostIndex - postPerPage;
   
-  let curentPost = allData.slice(firstPostIndex , lastPostIndex)
+
+
 
 
    const fetchData = async () => {
-    const res = await axios.get(  baseUrl + "customer_all.php");
+  
+    const res = await axios.post(  baseUrl +   "customer_all.php" , {
+      ID_USER : iduser,
+      TOKEN:token ,
+    });
     console.log(res)
     if (res){
       if(res.data.success === 0 ){
@@ -51,6 +57,7 @@ function AddCosumer() {
     fetchData();
   }, []);
 
+  let curentPost = allData.slice(firstPostIndex , lastPostIndex)
 
 
   const showCustomerModels = ( e,name) =>  { 
@@ -85,6 +92,8 @@ function AddCosumer() {
       axios
         .post( baseUrl  + "customer_insert.php", {
           name: Cname,
+          ID_USER : iduser,
+          TOKEN:token ,
           phone: Cphone,
           address: Clocation,
         })
@@ -114,9 +123,11 @@ function AddCosumer() {
   const [isActive , setisActive]  = useState(true);
 
   const Searching = async  () => {
-    const resFilterd = await axios.post(baseUrl + "cvm_view_all_search.php" , {
+    const resFilterd = await axios.post(baseUrl + "customer_search.php" , {
       phone : searchBynumber ,
       name : searchByname ,
+      ID_USER : iduser,
+      TOKEN:token ,
      
     })
     setallData(resFilterd.data)
@@ -133,6 +144,8 @@ function AddCosumer() {
     event.preventDefault();
     const res = await axios.post(baseUrl + "customer_change_active.php" , {
       id_customer : id ,
+      ID_USER : iduser,
+      TOKEN:token ,
       active : active ,
     })
 
@@ -142,173 +155,296 @@ function AddCosumer() {
  
   }
 
-
+  if(curentPost.length > 0 ) {
   
-  return (
-    <div>
-
-      <Sidebar></Sidebar>
-
-      <div className="full_container" dir="rtl">
-      <ToastContainer />
-
-        <div className="inner_container">
-          <div id="content">
-            <Topbar />
-
-            <div
-              style={{
-                backgroundColor: "white",
-                width: "90%",
-                boxShadow: 10,
-                margin: "auto",
-              }}
-            >
-              <h1 style={{ textAlign: "center", marginTop: 30 , color:'#FF5723' }}> اضافة زبون الي المنظومة</h1>
-              <form
-                className="row"
+    return (
+      <div>
+  
+        <Sidebar></Sidebar>
+  
+        <div className="full_container" dir="rtl">
+        <ToastContainer />
+  
+          <div className="inner_container">
+            <div id="content">
+              <Topbar />
+  
+              <div
                 style={{
-                  marginBottom: 60,
                   marginTop: 30,
-                  width: "80%",
-                  marginRight: "auto",
-                  marginLeft: "auto",
+                  padding:50,
+                  backgroundColor: "#15283D",
+                  width: "100%",
+                  boxShadow: 10,
                 }}
               >
-                <div className="col">
-                  <label htmlFor="customerName"> اسم الزبون</label>
-                  <input
-                    type="text"
-                    id="customerName"
-                    name="name"
-                    required
-                    onChange={(e) => setCname(e.target.value)}
-                    className="form-control"
-                    placeholder="Name"
-                  />
-                </div>
-                <div className="col">
-                  <label htmlFor="customerNumber"> رقم الزبون</label>
-                  <input
-                    type="text"
-                    name="phone"
-                    required
-                    onChange={(e) => setCphone(e.target.value)}
-                    id="customerNumber"
-                    className="form-control"
-                    placeholder="Phone Number"
-                  />
-                </div>
-                <div className="col">
-                  <label htmlFor="customerNumber"> العنوان </label>
-                  <input
-                    type="text"
-                    id="customerLocation"
-                    name="address"
-                    className="form-control"
-                    placeholder="العنوان"
-                    required
-                    onChange={(e) => setClocation(e.target.value)}
-                  />
-                </div>
-                <button
-                  style={{ marginTop: 30 , color:'white' , border:'0px' , width:100, backgroundColor:'#FF5723' }}
-                  className="btn btn-danger"
-                  
-                  onClick={addNewCustomer}
+                <h1 style={{ textAlign: "center", marginTop: 30 , color:'#FFFFFF' }}> اضافة زبون الي المنظومة</h1>
+                <form
+                  className="row"
+                  style={{
+                    marginBottom: 60,
+                    marginTop: 30,
+                    width: "100%",
+                    marginRight: "auto",
+                    marginLeft: "auto",
+                  }}
                 >
-                  اضافة زبون
-                </button>
-              </form>
-            </div>
-
-                <div className="row" style={{
-                  
-                  padding:20
-                }}>
-                 <div className="col">
-                 <input id="searchbyname" className="form-control"  placeholder="بحث عن طريق الاسم"/>
-                 </div>
-                 <div className="col">
-                 <button onClick={Searching} className="btn-primary "style={{border:'0px',height:'40px',width : '90px'}}>
-                    بحث 
+                  <div className="col">
+                    <label htmlFor="customerName"> اسم الزبون</label>
+                    <input
+                      type="text"
+                      id="customerName"
+                      name="name"
+                      required
+                      onChange={(e) => setCname(e.target.value)}
+                      className="form-control"
+                      placeholder="Name"
+                    />
+                  </div>
+                  <div className="col">
+                    <label htmlFor="customerNumber"> رقم الزبون</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      required
+                      onChange={(e) => setCphone(e.target.value)}
+                      id="customerNumber"
+                      className="form-control"
+                      placeholder="Phone Number"
+                    />
+                  </div>
+                  <div className="col">
+                    <label htmlFor="customerNumber"> العنوان </label>
+                    <input
+                      type="text"
+                      id="customerLocation"
+                      name="address"
+                      className="form-control"
+                      placeholder="العنوان"
+                      required
+                      onChange={(e) => setClocation(e.target.value)}
+                    />
+                  </div>
+                  <button
+                    style={{ marginTop: 30 , color:'white' , border:'0px' , width:100, backgroundColor:'#FF5723' }}
+                    className="btn btn-danger"
+                    
+                    onClick={addNewCustomer}
+                  >
+                    اضافة زبون
                   </button>
-
-                 </div>
-           
-
-                </div>
-
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">اسم الزبون</th>
-                  <th scope="col">رقم الهاتف</th>
-                  <th scope="col">الاعتماد </th>
-                  <th scope="col"> العنوان </th>
-                  <th scope="col">عمليات </th>
-                  <th scope="col">التفعيل </th>
-                </tr>
-              </thead>
-              <tbody>
-                {curentPost.map((data) => {
-                    return (
-                      <tr key={data.id_customer}>
-                        <th scope="row">{data.id_customer}</th>
-                        <td>{data.name}</td>
-                        <td>{data.phone} </td>
-                        <td>
-                          {data.active === "1" ? (
-                            <span className="badge text-bg-info">فعال </span>
-                          ) : (
-                            <span className="badge text-bg-danger"> غير فعال </span>
-                          )}
-                        </td>
-                        <td>{data.address}</td>
-                        <td>
-                          <button type="button" onClick={ (e) => showCustomerModels( e , data.name)} className="btn btn-warning">
-                            عرض الزيارات
-                          </button>
-                         {/* <ConsumerContext.Provider value={data.id_customer}  /> */}
-
-                        </td>
-                        <td>
-                          {
-                          
-                          data.active === "1" 
-                          ?
-                          (
-                            // <label className="switch">
-                            //   <input type="checkbox" checked value={"1"}   onChange={ e => Activison( data.id_customer, "1" )}/>
+                </form>
+              </div>
+  
+                  <div className="row" style={{
+                    
+                    padding:20
+                  }}>
+                   <div className="col">
+                   <input id="searchbyname" className="form-control"  placeholder="بحث عن طريق الاسم"/>
+                   </div>
+                   <div className="col">
+                   <button onClick={Searching} className="btn-primary "style={{ borderRadius:'15%', background:"#15283D", border:'0px',height:'33px',width : '90px'}}>
+                      بحث 
+                    </button>
+  
+                   </div>
+             
+  
+                  </div>
+  
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">اسم الزبون</th>
+                    <th scope="col">رقم الهاتف</th>
+                    <th scope="col">الاعتماد </th>
+                    <th scope="col"> العنوان </th>
+                    <th scope="col">عمليات </th>
+                    <th scope="col">التفعيل </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {curentPost.map((data) => {
+                      return (
+                        <tr key={data.id_customer}>
+                          <th scope="row">{data.id_customer}</th>
+                          <td>{data.name}</td>
+                          <td>{data.phone} </td>
+                          <td>
+                            {data.active === "1" ? (
+                              <span className="badge text-bg-info">فعال </span>
+                            ) : (
+                              <span className="badge text-bg-danger"> غير فعال </span>
+                            )}
+                          </td>
+                          <td>{data.address}</td>
+                          <td>
+                            <button type="button" onClick={ (e) => showCustomerModels( e , data.name)} className="btn btn-warning">
+                              عرض الزيارات
+                            </button>
+                           {/* <ConsumerContext.Provider value={data.id_customer}  /> */}
+  
+                          </td>
+                          <td>
+                            {
+                            
+                            data.active === "1" 
+                            ?
+                            (
+                              // <label className="switch">
+                              //   <input type="checkbox" checked value={"1"}   onChange={ e => Activison( data.id_customer, "1" )}/>
+                              //   <span className="slider round"></span>
+                              // </label>
+                                <button  className="btn btn-danger" onClick={ e => Activison(e , data.id_customer , "0" )} >الغاء تفعيل</button>
+                               )
+                               :  
+                               (
+                            //   <label className="switch">
+                            //   <input type="checkbox" value={"0"}   onChange={ e => Activison(data.id_customer, "0" )}/>
                             //   <span className="slider round"></span>
                             // </label>
-                              <button  onClick={ e => Activison(e , data.id_customer , "0" )} >الغاء تفعيل</button>
-                             )
-                             :  
-                             (
-                          //   <label className="switch">
-                          //   <input type="checkbox" value={"0"}   onChange={ e => Activison(data.id_customer, "0" )}/>
-                          //   <span className="slider round"></span>
-                          // </label>
-                          <button  onClick={ e => Activison(e ,  data.id_customer ,  "1" )}> تفعيل</button>
-
-                             )
-                          
-                          }
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-            <Pagination totalposts={setallData.length} posterpage={postPerPage} setCurentpage={setCurentpage}  />
-
+                            <button  className="btn btn-success" onClick={ e => Activison(e ,  data.id_customer ,  "1" )}> تفعيل</button>
+  
+                               )
+                            
+                            }
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+              <Pagination totalposts={setallData.length} posterpage={postPerPage} setCurentpage={setCurentpage}  />
+  
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }else{
+    return (
+      <div>
+  
+        <Sidebar></Sidebar>
+  
+        <div className="full_container" dir="rtl">
+        <ToastContainer />
+  
+          <div className="inner_container">
+            <div id="content">
+              <Topbar />
+  
+              <div
+                style={{
+                  marginTop: 30,
+                  padding:50,
+                  backgroundColor: "#15283D",
+                  width: "100%",
+                  boxShadow: 10,
+                }}
+              >
+                <h1 style={{ textAlign: "center", marginTop: 30 , color:'#FFFFFF' }}> اضافة زبون الي المنظومة</h1>
+                <form
+                  className="row"
+                  style={{
+                    marginBottom: 60,
+                    marginTop: 30,
+                    width: "100%",
+                    marginRight: "auto",
+                    marginLeft: "auto",
+                  }}
+                >
+                  <div className="col">
+                    <label htmlFor="customerName"> اسم الزبون</label>
+                    <input
+                      type="text"
+                      id="customerName"
+                      name="name"
+                      required
+                      onChange={(e) => setCname(e.target.value)}
+                      className="form-control"
+                      placeholder="Name"
+                    />
+                  </div>
+                  <div className="col">
+                    <label htmlFor="customerNumber"> رقم الزبون</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      required
+                      onChange={(e) => setCphone(e.target.value)}
+                      id="customerNumber"
+                      className="form-control"
+                      placeholder="Phone Number"
+                    />
+                  </div>
+                  <div className="col">
+                    <label htmlFor="customerNumber"> العنوان </label>
+                    <input
+                      type="text"
+                      id="customerLocation"
+                      name="address"
+                      className="form-control"
+                      placeholder="العنوان"
+                      required
+                      onChange={(e) => setClocation(e.target.value)}
+                    />
+                  </div>
+                  <button
+                    style={{ marginTop: 30 , color:'white' , border:'0px' , width:100, backgroundColor:'#FF5723' }}
+                    className="btn btn-danger"
+                    
+                    onClick={addNewCustomer}
+                  >
+                    اضافة زبون
+                  </button>
+                </form>
+              </div>
+  
+                  <div className="row" style={{
+                    
+                    padding:20
+                  }}>
+                   <div className="col">
+                   <input id="searchbyname" className="form-control"  placeholder="بحث عن طريق الاسم"/>
+                   </div>
+                   <div className="col">
+                   <button onClick={Searching} className="btn-primary "style={{ borderRadius:'15%', background:"#15283D", border:'0px',height:'33px',width : '90px'}}>
+                      بحث 
+                    </button>
+  
+                   </div>
+             
+  
+                  </div>
+  
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">اسم الزبون</th>
+                    <th scope="col">رقم الهاتف</th>
+                    <th scope="col">الاعتماد </th>
+                    <th scope="col"> العنوان </th>
+                    <th scope="col">عمليات </th>
+                    <th scope="col">التفعيل </th>
+                  </tr>
+                </thead>
+          
+              
+              </table>
+              <Pagination totalposts={setallData.length} posterpage={postPerPage} setCurentpage={setCurentpage}  />
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+
 }
 
 export default AddCosumer;

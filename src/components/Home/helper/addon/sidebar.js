@@ -46,6 +46,46 @@ function sidebar() {
                      <li><a to="settings.html"><i className="fa fa-cog yellow_color"></i> <span>Settings</span></a></li> */}
                   </ul>
                </div>
+
+
+
+
+
+
+
+
+
+
+               <div className="sidebar_blog_2">
+                  <ul className="list-unstyled components">
+                     <li className="active">
+                        <Link to="/allmodels" data-toggle="collapse" aria-expanded="false" ><i className="fa fa-dashboard yellow_color"></i> <span  style={{fontSize:18 , color:'#FF9801' , fontWeight:'bold'}}>ّIT Depratment </span></Link>
+                        <ul className=" list-unstyled" id="dashboard">
+                           <li>
+                           <Link to="/main"> <span style={{fontSize:18 , fontWeight:'bold'}} > الرئيسية </span></Link>
+                           </li>
+                           <li>
+                               <Link to="/addnewuser"><span  style={{fontSize:18 , fontWeight:'bold'}}>ادارة المستخدمين </span></Link>
+                           </li>
+                    
+                        </ul>
+                     </li>
+                    
+                     {/* <li><a to="map.html"><i className="fa fa-map purple_color2"></i> <span>Map</span></a></li>
+                     <li><a to="charts.html"><i className="fa fa-bar-chart-o green_color"></i> <span>Charts</span></a></li>
+                     <li><a to="settings.html"><i className="fa fa-cog yellow_color"></i> <span>Settings</span></a></li> */}
+                  </ul>
+               </div>
+
+
+
+
+
+
+
+
+
+
             </nav>
     </div>
   )
