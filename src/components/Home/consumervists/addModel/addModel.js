@@ -150,16 +150,29 @@ function AddModel() {
       //input validation 
       const userid =  window.localStorage.getItem('userID') ;
 
-      if(!datevist && !id_coustom  && !delvname && !activitybe && !phone && !city && !position && !generator && !tanksize && !up && !down 
-        && !countcy && !space && !userid ){
+      if(!datevist || !id_coustom  || !delvname || !activitybe || !phone || !city || !position || !generator || !tanksize ||  
+      !countcy || !space  ){
+            const errorInput = () => toast("يرجي ادخال كل البيانات  ");
+            errorInput(); 
+            document.getElementsByClassName('alldata').style.color = "red"
+
+
+      } else if( datevist === "" || id_coustom === ""   || delvname === ""  ||  activitybe  === ""  ||  phone  === ""  ||  city === ""   ){
             const errorInput = () => toast("يرجي ادخال كل البيانات صحيحة ");
             errorInput();
+            // document.getElementsByClassName('alldata').style.color = "red"
+          // var elements = document.getElementsByClassName('alldata');
+          //   for (var i = 0; i < elements.length; i++) {
+          //       elements[i].style.color="blue";
+          //   }
 
-      }else if ( !notes){
+      }
+      else if ( !notes){
         setNotes("لايوجد")
       }else if ((up === " " && down === " ")){
         const errorInput = () => toast("يرجي  اختيار موقع الخزان ");
         document.getElementById('lup').style.color = "red"
+        document.getElementById('ldown').style.color = "red"
 
         errorInput();
       // }else if ( (gasusagearray.length === 0 )   && (tanktypes.length === 0) ){
@@ -171,48 +184,48 @@ function AddModel() {
       // }
        } else{
 
-        var data = new FormData();
-        data.append('DATE_VISITS', datevist);
-        data.append('ID_CUSTOMER', id_coustom);
-        data.append('DELEGATE_NAME', delvname);
-        data.append('ACTIVITY_TYPE', activitybe);
-        data.append('PHONE', phone);
-        data.append('ADDRESS', city);
-        data.append('COORDINATES_LOCATION', position);
-        data.append('GENERATOR_POWER', generator);
-        data.append('TANK_CAPACITY', tanksize);
-        data.append('TANK_LOCATION', up + down);
-        data.append('COUNT_EXTINGUISHING_CYLINDERS', countcy);
-        data.append('DISTANCE_ALTERNATOR_TANK', space);
-        data.append('NOTE', notes);
-        data.append('ID_USER', userid);
-        data.append('USAGE_STATES', gasusagearray);
-        data.append('FUEL_KINDS', gastypes);
-        data.append('TANK_KINDS', tanktypes);
-        data.append('CVM_FILE', selectedFile);
+        // var data = new FormData();
+        // data.append('DATE_VISITS', datevist);
+        // data.append('ID_CUSTOMER', id_coustom);
+        // data.append('DELEGATE_NAME', delvname);
+        // data.append('ACTIVITY_TYPE', activitybe);
+        // data.append('PHONE', phone);
+        // data.append('ADDRESS', city);
+        // data.append('COORDINATES_LOCATION', position);
+        // data.append('GENERATOR_POWER', generator);
+        // data.append('TANK_CAPACITY', tanksize);
+        // data.append('TANK_LOCATION', up + down);
+        // data.append('COUNT_EXTINGUISHING_CYLINDERS', countcy);
+        // data.append('DISTANCE_ALTERNATOR_TANK', space);
+        // data.append('NOTE', notes);
+        // data.append('ID_USER', userid);
+        // data.append('USAGE_STATES', gasusagearray);
+        // data.append('FUEL_KINDS', gastypes);
+        // data.append('TANK_KINDS', tanktypes);
+        // data.append('CVM_FILE', selectedFile);
 
 
         
 
-        var mydata = {
-          DATE_VISITS: datevist, 
-          ID_CUSTOMER: id_coustom , 
-          DELEGATE_NAME: delvname , 
-          ACTIVITY_TYPE:activitybe ,
-          PHONE:phone,
-          ADDRESS: city ,
-          COORDINATES_LOCATION: position , 
-          GENERATOR_POWER :generator, 
-          TANK_CAPACITY:tanksize , 
-          TANK_LOCATION: up + " " + down, 
-          COUNT_EXTINGUISHING_CYLINDERS: countcy , 
-          DISTANCE_ALTERNATOR_TANK:space , 
-          NOTE:notes , 
-          ID_USER:userid,
-          USAGE_STATES:gasusagearray,
-          FUEL_KINDS:gastypes,
-          TANK_KINDS:tanktypes
-        }
+        // var mydata = {
+        //   DATE_VISITS: datevist, 
+        //   ID_CUSTOMER: id_coustom , 
+        //   DELEGATE_NAME: delvname , 
+        //   ACTIVITY_TYPE:activitybe ,
+        //   PHONE:phone,
+        //   ADDRESS: city ,
+        //   COORDINATES_LOCATION: position , 
+        //   GENERATOR_POWER :generator, 
+        //   TANK_CAPACITY:tanksize , 
+        //   TANK_LOCATION: up + " " + down, 
+        //   COUNT_EXTINGUISHING_CYLINDERS: countcy , 
+        //   DISTANCE_ALTERNATOR_TANK:space , 
+        //   NOTE:notes , 
+        //   ID_USER:userid,
+        //   USAGE_STATES:gasusagearray,
+        //   FUEL_KINDS:gastypes,
+        //   TANK_KINDS:tanktypes
+        // }
 
         // baseUrl + 'cvm_insert.php' , { ...data }
 
@@ -277,14 +290,14 @@ function AddModel() {
                   marginLeft: "auto",
                 }}
               >
-                               <h1 style={{
-                                marginBottom :40,
-                                color : "#FF5723",
-                                fontWeight : "bold"
-                               }}>اضافة نموذج جديد </h1>
+                <h1 style={{
+                 marginBottom :40,
+                  color : "#FF5723",
+                fontWeight : "bold"
+               }}>اضافة نموذج جديد </h1>
 
                 <div className="col">
-                  <label htmlFor="customerName"> نوع النشاط</label>
+                  <label className="alldata"  htmlFor="customerName"> نوع النشاط</label>
                   <input
                     type="text"
                     id="customerName"
@@ -294,7 +307,7 @@ function AddModel() {
                     aria-label="First name"
                     required
                   />
-                  <label htmlFor="customerName"> رقم الهاتف</label>
+                  <label className="alldata"  htmlFor="customerName"> رقم الهاتف</label>
                   <input
                     type="number"
                     id="customerName"
@@ -318,7 +331,7 @@ function AddModel() {
                 </div>
                 {/* onChange={(e) => setCustomername(e.target.value)}  */}
                 <div className="col">
-                  <label htmlFor="customerName"> اسم الزبون</label>
+                  <label className="alldata"  htmlFor="customerName"> اسم الزبون</label>
                   <input type="text" name="city" className="form-control" 
                     onChange={ handeldata }
                    id="customerName" placeholder="اسم الزبون"  
@@ -337,7 +350,7 @@ function AddModel() {
 
 
 
-                  <label htmlFor="customerName"> قوة المولد</label>
+                  <label className="alldata"  htmlFor="customerName"> قوة المولد</label>
                   <input
                     type="number"
                     id="customerName"
@@ -347,7 +360,7 @@ function AddModel() {
                     placeholder="قوة المولد"
                     aria-label="First name"
                   />
-                    <label htmlFor="customerName"> تاريخ الزيارة </label>
+                    <label   className="alldata"  htmlFor="customerName"> تاريخ الزيارة </label>
                   <input
                     type="date"
                     id="customerName"
@@ -358,7 +371,7 @@ function AddModel() {
                   />
                 </div>
                 <div className="col">
-                  <label htmlFor="customerName"> المدينة </label>
+                  <label className="alldata"  htmlFor="customerName"> المدينة </label>
                   <input
                     type="text"
                     onChange={(e) => setCity(e.target.value)}
@@ -401,7 +414,7 @@ function AddModel() {
                         return (
                           <div className="form-check">
                           <label
-                            className="form-check-label pl-3"
+                            className="form-check-label pl-3 alldata"
                             htmlFor="flexCheckDefault"
                           >
                             {index.name_usage_state}
@@ -429,7 +442,7 @@ function AddModel() {
 
                       <div className="form-check ">
                       <label
-                        className="form-check-label pl-3"
+                        className="form-check-label pl-3 alldata"
                         htmlFor="flexCheckChecked"
                       >
                             {index.name_fuel_kind}
@@ -454,7 +467,7 @@ function AddModel() {
 
                       <div className="form-check ">
                       <label
-                        className="form-check-label pl-3"
+                        className="form-check-label pl-3 alldata"
                         htmlFor="flexCheckChecked"
                       >
                             {index.name_tank_kind}
