@@ -919,6 +919,15 @@ a[data-toggle="collapse"] {
     padding: 60px 25px 25px 305px;
     background: #f8f8f8;
 }
+.content_addmodel {
+    width: 100%;
+    min-height: 100vh;
+    transition: ease all 0.3s;
+    position: relative;
+    padding: 60px 25px 25px 305px;
+    background-image: url('../public/images/layout_img/pattern.png') !important;
+    background-color: #15283c;
+}
 
 .page_title {
     background: #fff;
@@ -2732,10 +2741,12 @@ ul.labels-info li a i {
 }
 
 .table-inbox tr td {
+    
     padding: 12px !important;
 }
 
 .table-inbox tr td:hover {
+    
     cursor: pointer;
 }
 
@@ -2936,6 +2947,7 @@ ul.inbox-pagination li {
 
 .table thead th {
     font-weight: 400;
+  
 }
 
 .table-hover tbody tr.unread:hover,
@@ -2945,7 +2957,7 @@ ul.inbox-pagination li {
 
 .table-hover tbody tr:hover,
 .table-hover tbody tr:focus {
-    background-color: #1ed085 !important;
+    background-color: #eaeaea !important;
     color: #fff;
 }
 

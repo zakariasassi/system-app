@@ -17,7 +17,7 @@ function App() {
   return (
  //   check  ? <AllModels /> : 
           <Routes>
-           <Route  exact path="/" element={<Login/> } />
+           <Route  exact path="/" element={ check  ?<AllModels /> : <Login/> } />
 
             {/* models system routes  */}
           <Route  path="/index" element={<AllModels /> } />

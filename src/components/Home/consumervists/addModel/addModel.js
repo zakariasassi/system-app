@@ -10,9 +10,12 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { ModelContext } from "../showModel/modelContext";
 
+
 var gasusagearray = [];
 var gastypes = [];
 var tanktypes = [];
+let iduser = window.localStorage.getItem("userID");
+let token = window.localStorage.getItem("token");
 
 function AddModel() {
 
@@ -63,11 +66,13 @@ function AddModel() {
   
     useEffect(() => {
       const fetchData = async () => {
-        const res = await axios.get( baseUrl + "customer_all_name.php");
+        const res = await axios.post( baseUrl + "customer_all_name.php" , {ID_USER:iduser,
+          TOKEN:token    });
         setAlldata(res.data);
       };
       const fetchfueldata = async () => {
-        const fuelres = await axios.get( baseUrl + "fuel_data_all.php");
+        const fuelres = await axios.post( baseUrl + "fuel_data_all.php" , {ID_USER:iduser,
+          TOKEN:token    });
         setAllfueldata(fuelres.data)
         console.log(fuelres.data);
       };
@@ -207,25 +212,25 @@ function AddModel() {
 
         
 
-        // var mydata = {
-        //   DATE_VISITS: datevist, 
-        //   ID_CUSTOMER: id_coustom , 
-        //   DELEGATE_NAME: delvname , 
-        //   ACTIVITY_TYPE:activitybe ,
-        //   PHONE:phone,
-        //   ADDRESS: city ,
-        //   COORDINATES_LOCATION: position , 
-        //   GENERATOR_POWER :generator, 
-        //   TANK_CAPACITY:tanksize , 
-        //   TANK_LOCATION: up + " " + down, 
-        //   COUNT_EXTINGUISHING_CYLINDERS: countcy , 
-        //   DISTANCE_ALTERNATOR_TANK:space , 
-        //   NOTE:notes , 
-        //   ID_USER:userid,
-        //   USAGE_STATES:gasusagearray,
-        //   FUEL_KINDS:gastypes,
-        //   TANK_KINDS:tanktypes
-        // }
+        var mydata = {
+          DATE_VISITS: datevist, 
+          ID_CUSTOMER: id_coustom , 
+          DELEGATE_NAME: delvname , 
+          ACTIVITY_TYPE:activitybe ,
+          PHONE:phone,
+          ADDRESS: city ,
+          COORDINATES_LOCATION: position , 
+          GENERATOR_POWER :generator, 
+          TANK_CAPACITY:tanksize , 
+          TANK_LOCATION: up + " " + down, 
+          COUNT_EXTINGUISHING_CYLINDERS: countcy , 
+          DISTANCE_ALTERNATOR_TANK:space , 
+          NOTE:notes , 
+          ID_USER:userid,
+          USAGE_STATES:gasusagearray,
+          FUEL_KINDS:gastypes,
+          TANK_KINDS:tanktypes,
+        }
 
         // baseUrl + 'cvm_insert.php' , { ...data }
 
@@ -250,40 +255,54 @@ function AddModel() {
         TANK_LOCATION: up + down, 
         COUNT_EXTINGUISHING_CYLINDERS: countcy , 
         DISTANCE_ALTERNATOR_TANK:space , 
-        NOTE:notes , 
+        NOTE:notes, 
         ID_USER:userid,
         USAGE_STATES:gasusagearray,
         FUEL_KINDS:gastypes,
         TANK_KINDS:tanktypes,
+        TOKEN : token
+
         // CVM_FILE : selectedFile
      
         } ).then((res) => {
-        console.log(res.data)
-        // setViewModel(res.data)
+        console.log(res)
+        if(res.data.success === 0 ) {
+          const errorInput = () => toast(res.data.msg);
+          errorInput(); 
+        }else{
+        setOpen(true)
+        setViewModel(res.data)
+        console.log(viewModel)
+        const errorInput = () => toast("تمت الاضافة بنجاح");
+        errorInput(); 
+        }
         // console.log(data)
   
       }).catch((err) => {
           console.log(err)
       }) 
-      setOpen(true)
-      setViewModel(mydata)
+    //  setViewModel(mydata)
     }
   }     
     return (
-      <div>
- 
+      <>
+
         <Sidebar></Sidebar>
-        <div className="full_container" dir="rtl">
+        <div className="full_container"  dir="rtl">
           <ToastContainer/>
-          <div className="inner_container">
+          <div className="inner_container" dir="rtl" >
           <Topbar />
-            <div id="content">
+            <div className="content" dir="rtl"  style={{
+              width:'80%'
+            }} >
             <ModelContext.Provider value={{ setOpen , viewModel} } >
               {open && <Showmodel/>}
               </ModelContext.Provider>
               <form
                 className="row"
+                dir="rtl"
                 style={{
+                 
                   marginTop: 100,
                   width: "80%",
                   marginRight: "auto",
@@ -296,7 +315,7 @@ function AddModel() {
                 fontWeight : "bold"
                }}>اضافة نموذج جديد </h1>
 
-                <div className="col">
+                <div className="col" >
                   <label className="alldata"  htmlFor="customerName"> نوع النشاط</label>
                   <input
                     type="text"
@@ -575,7 +594,8 @@ function AddModel() {
             </div>
           </div>
         </div>
-      </div>
+      
+      </>
     );
   }
 
