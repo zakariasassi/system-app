@@ -15,6 +15,8 @@ function Showmodel(props) {
   const buttonRef = useRef();
 
   useEffect(() => {
+    console.log("---------------------------------------------")
+
     console.log(mydata.viewModel)
   },[])
   
@@ -28,12 +30,18 @@ function Showmodel(props) {
         paddingLeft:40
       }}>
         <div className='top'>
-              <button onClick={closeScreen} >x</button>
+              <button style={{
+                backgroundColor:'transparent',
+                fontSize:30,
+                padding:5,
+                border:'0px',
+                fontWeight:'bold',
+                color:'red'
+              }} onClick={closeScreen} >x</button>
               <div className='row' style={{
                 display:'flex',
                 justifyContent:'space-between',
                 alignItems:'center',
-                marginTop:'20px'
               }}>
                 <div className='col' >
                 <h4>نموذج الزيارات الميدانية لقطاع المستهلكين</h4>
@@ -53,30 +61,30 @@ function Showmodel(props) {
               
               <div className='col'>
                   <label htmlFor="cutomername" style={{fontWeight:'bold'}}> اسم الزبون</label>
-                  <h6 id='cutomername '>{mydata.viewModel.DELEGATE_NAME} </h6>
+                  <h6 id='cutomername '>{mydata.viewModel.name} </h6>
               </div>  
               <div className='col'>
                   <label htmlFor="activitytybe" style={{fontWeight:'bold'}}> نوع النشاط </label>
-                  <h6 id='activitytybe '>{mydata.viewModel.ACTIVITY_TYPE} </h6>
+                  <h6 id='activitytybe '>{mydata.viewModel.activity_type} </h6>
               </div> 
               <div className='col'>
                   <label htmlFor="deleveryname" style={{fontWeight:'bold'}}> تاريخ الزيارة  </label>
-                  <h6 id='deleveryname '>{mydata.viewModel.DATE_VISITS}  </h6>
+                  <h6 id='deleveryname '>{mydata.viewModel.date_visits}  </h6>
               </div> 
             </div>
 
             <div className='row'>
               <div className='col'>
                   <label htmlFor="phonenumber" style={{fontWeight:'bold'}}> رقم الهاتف </label>
-                  <h6 id='phonenumber '> {mydata.viewModel.PHONE} </h6>
+                  <h6 id='phonenumber '> {mydata.viewModel.phone} </h6>
               </div>  
               <div className='col'>
                   <label htmlFor="city" style={{fontWeight:'bold'}}> المدينة  </label>
-                  <h6 id='city '> {mydata.viewModel.CITY} </h6>
+                  <h6 id='city '> {mydata.viewModel.address} </h6>
               </div> 
               <div className='col'>
                   <label htmlFor="latitudeandlongitude " style={{fontWeight:'bold'}}> احداثيات الموقع  </label>
-                  <h6 id='latitudeandlongitude '> {mydata.viewModel.COORDINATES_LOCATION} </h6>
+                  <h6 id='latitudeandlongitude '> {mydata.viewModel.coordinates_location} </h6>
               </div> 
             </div>
 
@@ -84,43 +92,54 @@ function Showmodel(props) {
              
               <div className='col-8'>
                   <label htmlFor="poergertor" style={{fontWeight:'bold'}}>قوة المولد  </label>
-                  <h6 id='poergertor '> {mydata.viewModel.GENERATOR_POWER} </h6>
+                  <h6 id='poergertor '> {mydata.viewModel.generator_power} </h6>
               </div> 
        
             </div>
-            <h6> اليات استعمال الوقود</h6>
+            <h6 style={{fontWeight:'bold' , color:'black'}}>  الية استعمال الوقود</h6>
+
             <div className='row'>
-              <p style={{fontWeight:'bold' , color:'black'}}>نوع الوقود</p>
               <div className='col'>
-                  <label htmlFor="phonenumber" > بنزين  </label>
-                  <h6 id='phonenumber '>zakaria sassi </h6>
+              {mydata.viewModel[0].map( index => {
+                  return (
+                    <h6> {index.name_usage_state } </h6>
+                  )
+                 })} 
+         
               </div>  
-              <div className='col'>
-                  <label htmlFor="poergertor">ديزل   </label>
-                  <h6 id='poergertor '> power </h6>
-              </div> 
-              <div className='col'>
-                  <label htmlFor="poergertor"> كيريسين</label>
-                  <h6 id='poergertor '> power </h6>
-              </div> 
+           
             </div>
+
+            <h6 style={{fontWeight:'bold' , color:'black'}}>  نوع الوقود</h6>
             <div className='row'>
-              <p style={{fontWeight:'bold' , color:'black'}} >نوع خزان الوقود</p>
               <div className='col'>
-                  <label htmlFor="phonenumber"> بلاستيكي  </label>
-                  <h6 id='phonenumber '>zakaria sassi </h6>
+              {mydata.viewModel[1].map( index => {
+                  return (
+                    <h6> {index.name_fuel_kind } </h6>
+                  )
+                 })} 
+         
               </div>  
+           
+            </div>
+            <h6 style={{fontWeight:'bold' , color:'black'}} >   نوع خزان الوقود</h6>
+
+            <div className='row'>
               <div className='col'>
-                  <label htmlFor="poergertor">بلاستيكي   </label>
-                  <h6 id='poergertor '> power </h6>
-              </div> 
+              {mydata.viewModel[2].map( index => {
+                  return (
+                    <h6> {index.name_tank_kind } </h6>
+                  )
+                 })} 
+              </div>  
+           
  
             </div>
 
             <div className='row'>
               <p style={{fontWeight:'bold' , color:'black'}} >موقع وسعة الخزان  </p>
               <div className='col'>
-                  <h6 id='phonenumber '>{mydata.viewModel.TANK_LOCATION + " " + mydata.viewModel.TANK_CAPACITY + " " + "leter"} </h6>
+                  <h6 id='phonenumber '>{mydata.viewModel.tank_location + " " + mydata.viewModel.tank_capacity + " " + "leter"} </h6>
               </div>  
  
             </div>
@@ -131,6 +150,11 @@ function Showmodel(props) {
               marginTop:20,
               marginBottom: 20
             }}>
+
+
+
+
+              
           
               <div className='col'>
               <ReactToPrint
